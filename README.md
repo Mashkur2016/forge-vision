@@ -165,9 +165,10 @@ Hypothesis testing code lives in `src/evaluation/hypothesis_tester.py`.
   `@synthetic.forge.local`) and in reports. They validate the analysis pipeline, not the hypotheses on real workers.
 - Real-participant tasks (recruitment, pre/post tests, the controlled study) require ethics approval and have not
   been run.
-- The seeded dataset was regenerated on 2026-11-06: it holds 9,303 deviation events plus 4,665 emotion rows, which
-  differs from the 8,441 recorded at the June seeding. Figures built on the earlier dataset should be re-run or
-  labelled with the dataset they used. Details in [TODOList.md](TODOList.md).
+- The seeded dataset was regenerated on 2026-11-06: it holds 9,303 deviation events plus 4,665 emotion rows. The
+  8,441 recorded at the first (June 9) seeding predates the Welding ×1.5 disparity injected for the bias audit;
+  the seeder is deterministic and reproduces the current figures exactly. Figures built on the earlier dataset
+  should be re-run or labelled with the dataset they used. Details in [TODOList.md](TODOList.md).
 
 ## Ethics and privacy
 
