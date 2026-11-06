@@ -162,7 +162,9 @@ def _connect():
 
 
 def fig_deviation_distribution(cur) -> None:
+    # emotion_* rows share the table but are affective samples, not SOP deviations (kept separate).
     cur.execute("SELECT deviation_class, count(*) FROM deviation_logs "
+                "WHERE deviation_class NOT LIKE 'emotion\\_%' "
                 "GROUP BY deviation_class ORDER BY count(*) DESC")
     rows = cur.fetchall()
     labels = [r[0] for r in rows]
@@ -170,7 +172,7 @@ def fig_deviation_distribution(cur) -> None:
     fig, ax = plt.subplots(figsize=(8.0, 4.6))
     ax.bar(labels, counts, color=GOLD, width=0.6)
     ax.set_ylabel("Number of events")
-    ax.set_title("Deviation-Class Distribution (synthetic study, n=8,441 events)")
+    ax.set_title(f"Deviation-Class Distribution (synthetic study, n={sum(counts):,} events)")
     ax.tick_params(axis="x", rotation=20)
     for i, v in enumerate(counts):
         ax.text(i, v, f"{v:,}", ha="center", va="bottom", fontsize=9)
@@ -178,7 +180,8 @@ def fig_deviation_distribution(cur) -> None:
 
 
 def fig_severity_mix(cur) -> None:
-    cur.execute("SELECT severity, count(*) FROM deviation_logs GROUP BY severity")
+    cur.execute("SELECT severity, count(*) FROM deviation_logs "
+                "WHERE deviation_class NOT LIKE 'emotion\\_%' GROUP BY severity")
     data = dict(cur.fetchall())
     order = [s for s in ("low", "medium", "high") if s in data]
     vals = [data[s] for s in order]

@@ -1,0 +1,448 @@
+{
+  "experiment": "operational_hypotheses_h1_h2",
+  "date": "2026-11-06",
+  "data_type": "SYNTHETIC",
+  "dataset": {
+    "source": "src/evaluation/seed_simulation_data.py (deterministic)",
+    "seed": 42,
+    "per_group": 64,
+    "bias_dev_multiplier_welding": 1.5,
+    "counts": {
+      "workers": 256,
+      "sessions": 1555,
+      "deviations": 9303,
+      "emotion_rows": 4665
+    },
+    "note": "Reproduced in a throwaway Postgres 16 container; totals match the live Supabase database exactly. Endpoint functions in src/api/routes/analytics.py were called directly (auth dependency bypassed)."
+  },
+  "supersedes": "2026-06-16 values (control 8.30 vs hybrid 2.80, d=-3.41, H2 eta^2=0.27), computed before the Welding x1.5 multiplier (2026-06-17).",
+  "results": {
+    "operational_hypotheses": {
+      "unit": "per-worker mean deviations per session",
+      "groups_present": {
+        "control": 64,
+        "hybrid": 64,
+        "realtime_only": 64,
+        "sim_only": 64
+      },
+      "h1": {
+        "hypothesis": "H1: FORGE-Vision reduces task error rates",
+        "test_name": "Welch's independent t-test (one-tailed)",
+        "paired": false,
+        "group_a": {
+          "label": "Control (operational)",
+          "n": 64,
+          "mean": 9.2289,
+          "std": 3.1509,
+          "ci95": [
+            8.4418,
+            10.016
+          ]
+        },
+        "group_b": {
+          "label": "Hybrid (operational)",
+          "n": 64,
+          "mean": 3.1294,
+          "std": 1.29,
+          "ci95": [
+            2.8072,
+            3.4516
+          ]
+        },
+        "t_statistic": 14.3318,
+        "degrees_of_freedom": 83.54,
+        "p_value": 0.0,
+        "cohens_d": -2.5335,
+        "effect_magnitude": "large",
+        "significant": true,
+        "alpha": 0.05,
+        "mean_diff_ci95": null,
+        "normality": [
+          {
+            "group": "Control (operational)",
+            "p_value": 0.0004,
+            "normal": false
+          },
+          {
+            "group": "Hybrid (operational)",
+            "p_value": 0.2531,
+            "normal": true
+          }
+        ],
+        "homogeneity": {
+          "test": "Levene",
+          "p_value": 0.0,
+          "equal_variance": false
+        }
+      },
+      "h2": {
+        "hypothesis": "H2: Hybrid approach produces better skill transfer",
+        "test_name": "One-way ANOVA + Tukey HSD",
+        "groups": [
+          {
+            "label": "Simulation-Only",
+            "n": 64,
+            "mean": 5.3115,
+            "std": 2.1183,
+            "ci95": [
+              4.7824,
+              5.8406
+            ]
+          },
+          {
+            "label": "Real-Time-Only",
+            "n": 64,
+            "mean": 4.2352,
+            "std": 1.8325,
+            "ci95": [
+              3.7774,
+              4.6929
+            ]
+          },
+          {
+            "label": "Hybrid",
+            "n": 64,
+            "mean": 3.1294,
+            "std": 1.29,
+            "ci95": [
+              2.8072,
+              3.4516
+            ]
+          }
+        ],
+        "f_statistic": 24.0367,
+        "p_value": 0.0,
+        "eta_squared": 0.2028,
+        "effect_magnitude": "large",
+        "significant": true,
+        "alpha": 0.05,
+        "tukey_hsd": [
+          {
+            "group_a": "Simulation-Only",
+            "group_b": "Real-Time-Only",
+            "mean_diff": -1.0764,
+            "q_statistic": 3.42,
+            "p_value": 0.043474,
+            "significant": true
+          },
+          {
+            "group_a": "Simulation-Only",
+            "group_b": "Hybrid",
+            "mean_diff": -2.1821,
+            "q_statistic": 6.9333,
+            "p_value": 6e-06,
+            "significant": true
+          },
+          {
+            "group_a": "Real-Time-Only",
+            "group_b": "Hybrid",
+            "mean_diff": -1.1057,
+            "q_statistic": 3.5133,
+            "p_value": 0.036728,
+            "significant": true
+          }
+        ],
+        "normality": [
+          {
+            "group": "Simulation-Only",
+            "p_value": 0.0948,
+            "normal": true
+          },
+          {
+            "group": "Real-Time-Only",
+            "p_value": 0.1353,
+            "normal": true
+          },
+          {
+            "group": "Hybrid",
+            "p_value": 0.2531,
+            "normal": true
+          }
+        ],
+        "homogeneity": {
+          "test": "Levene",
+          "p_value": 0.0107,
+          "equal_variance": false
+        }
+      }
+    },
+    "study_groups": {
+      "groups": [
+        {
+          "group": "hybrid",
+          "worker_count": 64,
+          "session_count": 263,
+          "avg_deviations_per_session": 3.14,
+          "avg_accuracy": 66.7,
+          "high_severity_rate": 0.331
+        },
+        {
+          "group": "realtime_only",
+          "worker_count": 64,
+          "session_count": 365,
+          "avg_deviations_per_session": 4.22,
+          "avg_accuracy": 55.6,
+          "high_severity_rate": 0.332
+        },
+        {
+          "group": "sim_only",
+          "worker_count": 64,
+          "session_count": 412,
+          "avg_deviations_per_session": 5.24,
+          "avg_accuracy": 46.6,
+          "high_severity_rate": 0.305
+        },
+        {
+          "group": "control",
+          "worker_count": 64,
+          "session_count": 515,
+          "avg_deviations_per_session": 9.28,
+          "avg_accuracy": 17.5,
+          "high_severity_rate": 0.319
+        }
+      ],
+      "learning_curve": [
+        {
+          "group": "control",
+          "session_seq": 1,
+          "avg_deviations": 12.19,
+          "n": 64
+        },
+        {
+          "group": "control",
+          "session_seq": 2,
+          "avg_deviations": 11.25,
+          "n": 64
+        },
+        {
+          "group": "control",
+          "session_seq": 3,
+          "avg_deviations": 10.36,
+          "n": 64
+        },
+        {
+          "group": "control",
+          "session_seq": 4,
+          "avg_deviations": 9.42,
+          "n": 64
+        },
+        {
+          "group": "control",
+          "session_seq": 5,
+          "avg_deviations": 8.73,
+          "n": 63
+        },
+        {
+          "group": "control",
+          "session_seq": 6,
+          "avg_deviations": 8.15,
+          "n": 59
+        },
+        {
+          "group": "control",
+          "session_seq": 7,
+          "avg_deviations": 7.17,
+          "n": 53
+        },
+        {
+          "group": "control",
+          "session_seq": 8,
+          "avg_deviations": 7.19,
+          "n": 37
+        },
+        {
+          "group": "control",
+          "session_seq": 9,
+          "avg_deviations": 7.14,
+          "n": 22
+        },
+        {
+          "group": "control",
+          "session_seq": 10,
+          "avg_deviations": 7.38,
+          "n": 13
+        },
+        {
+          "group": "control",
+          "session_seq": 11,
+          "avg_deviations": 7.29,
+          "n": 7
+        },
+        {
+          "group": "control",
+          "session_seq": 12,
+          "avg_deviations": 6.25,
+          "n": 4
+        },
+        {
+          "group": "control",
+          "session_seq": 13,
+          "avg_deviations": 5.0,
+          "n": 1
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 1,
+          "avg_deviations": 6.97,
+          "n": 64
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 2,
+          "avg_deviations": 6.3,
+          "n": 64
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 3,
+          "avg_deviations": 5.77,
+          "n": 64
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 4,
+          "avg_deviations": 4.9,
+          "n": 62
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 5,
+          "avg_deviations": 4.43,
+          "n": 56
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 6,
+          "avg_deviations": 4.17,
+          "n": 47
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 7,
+          "avg_deviations": 3.84,
+          "n": 31
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 8,
+          "avg_deviations": 3.42,
+          "n": 19
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 9,
+          "avg_deviations": 2.25,
+          "n": 4
+        },
+        {
+          "group": "sim_only",
+          "session_seq": 10,
+          "avg_deviations": 0.0,
+          "n": 1
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 1,
+          "avg_deviations": 5.61,
+          "n": 64
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 2,
+          "avg_deviations": 4.91,
+          "n": 64
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 3,
+          "avg_deviations": 4.35,
+          "n": 63
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 4,
+          "avg_deviations": 3.68,
+          "n": 60
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 5,
+          "avg_deviations": 3.4,
+          "n": 48
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 6,
+          "avg_deviations": 3.35,
+          "n": 37
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 7,
+          "avg_deviations": 3.05,
+          "n": 21
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 8,
+          "avg_deviations": 2.71,
+          "n": 7
+        },
+        {
+          "group": "realtime_only",
+          "session_seq": 9,
+          "avg_deviations": 2.0,
+          "n": 1
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 1,
+          "avg_deviations": 4.02,
+          "n": 64
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 2,
+          "avg_deviations": 3.33,
+          "n": 64
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 3,
+          "avg_deviations": 2.76,
+          "n": 59
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 4,
+          "avg_deviations": 2.69,
+          "n": 45
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 5,
+          "avg_deviations": 2.45,
+          "n": 22
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 6,
+          "avg_deviations": 2.0,
+          "n": 7
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 7,
+          "avg_deviations": 3.0,
+          "n": 1
+        },
+        {
+          "group": "hybrid",
+          "session_seq": 8,
+          "avg_deviations": 2.0,
+          "n": 1
+        }
+      ]
+    }
+  }
+}
