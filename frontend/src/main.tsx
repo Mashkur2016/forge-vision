@@ -1,0 +1,14 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+import { applyTheme, getStoredTheme } from '@/lib/theme'
+
+// Apply stored theme before first render to prevent flash of unstyled dark mode
+applyTheme(getStoredTheme())
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)

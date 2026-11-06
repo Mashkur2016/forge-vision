@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE-Vision — Conclusion</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#FFCC00; --gold-dark:#E6B800; --ink:#0B1220; --muted:#9fb0c7; --line:#23314b; --white:#F7FAFF; }
+  .reveal{ font-family:'Inter',sans-serif; color:var(--white); }
+  .reveal .slides{ text-align:left; }
+  .reveal-viewport{ background:radial-gradient(1200px 700px at 70% -10%, #16223b 0%, var(--ink) 55%, #070b14 100%); }
+  .reveal h1,.reveal h2,.reveal h3{ font-family:'Anton',sans-serif; font-weight:400; letter-spacing:.5px; text-transform:uppercase; color:var(--white); line-height:1.04; margin:0 0 .35em; }
+  .reveal h1{ font-size:2.6em; } .reveal h2{ font-size:1.7em; } .reveal h3{ font-size:1.0em; color:var(--gold); letter-spacing:2px; }
+  .reveal p,.reveal li{ font-size:.8em; line-height:1.5; color:#dce6f5; }
+  .gold{ color:var(--gold); }
+  .kicker{ font-family:'Anton'; letter-spacing:4px; text-transform:uppercase; color:var(--gold); font-size:.7em; margin-bottom:.6em; }
+  .rule{ height:4px; width:120px; background:var(--gold); border:0; margin:.2em 0 .9em; }
+  .sub{ color:var(--muted); font-size:.72em; }
+  .reveal ul{ margin-left:1.1em; } .reveal li{ margin:.5em 0; } .reveal li::marker{ color:var(--gold); }
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:.5em; }
+  .stat{ text-align:center; background:#101c33; border:1px solid var(--line); border-radius:12px; padding:16px 8px; }
+  .stat .v{ font-family:'Anton'; color:var(--gold); font-size:1.5em; }
+  .stat .l{ font-size:.5em; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  table.res{ width:100%; border-collapse:collapse; font-size:.66em; margin-top:.3em; }
+  table.res th,table.res td{ border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; }
+  table.res th{ color:var(--gold); font-family:'Anton'; font-weight:400; letter-spacing:1px; }
+  table.res td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .footer{ position:absolute; bottom:-34px; left:0; font-size:.5em; color:var(--muted); letter-spacing:1px; }
+  .center{ text-align:center; } .big{ font-size:1.0em; }
+  .reveal .controls{ color:var(--gold); } .reveal .progress{ color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+  <!-- 1 · WHAT WE SAW -->
+  <section>
+    <div class="kicker">Conclusion</div>
+    <h2>What we saw</h2>
+    <hr class="rule">
+    <p>A single platform that closes the training loop end to end:</p>
+    <ul>
+      <li><b>Detect</b> — deviations from the SOP, live, through an ordinary camera.</li>
+      <li><b>Explain</b> — plain-language, AI-generated correction within two seconds.</li>
+      <li><b>Record</b> — every session saved as governed research data.</li>
+      <li><b>Evaluate</b> — analytics &amp; formal hypothesis testing built in.</li>
+    </ul>
+    <div class="footer">FORGE-VISION · CONCLUSION</div>
+  </section>
+
+  <!-- 2 · RESULTS -->
+  <section>
+    <div class="kicker">Empirical evidence</div>
+    <h2>The hypotheses, supported</h2>
+    <hr class="rule">
+    <table class="res">
+      <tr><th>Hypothesis</th><th>Test</th><th>Result</th><th>Verdict</th></tr>
+      <tr><td>H1 — error reduction</td><td>Welch t (control vs hybrid)</td><td class="num">p≈0 · large d</td><td class="gold">Supported</td></tr>
+      <tr><td>H2 — hybrid &gt; single-modality</td><td>One-way ANOVA</td><td class="num">p≈0 · η²≈0.2–0.27</td><td class="gold">Supported</td></tr>
+      <tr><td>H3 — faster completion</td><td>Paired t (within-subjects)</td><td class="num">significant</td><td class="gold">Supported</td></tr>
+    </table>
+    <div class="stats">
+      <div class="stat"><div class="v">85.8%</div><div class="l">Model accuracy</div></div>
+      <div class="stat"><div class="v">0.875</div><div class="l">Macro F1</div></div>
+      <div class="stat"><div class="v">62 ms</div><div class="l">p95 latency</div></div>
+      <div class="stat"><div class="v">$0</div><div class="l">Cloud cost</div></div>
+    </div>
+    <p class="sub" style="margin-top:.7em">All three hypotheses supported on the study data; live and free in the cloud.</p>
+    <div class="footer">FORGE-VISION · CONCLUSION</div>
+  </section>
+
+  <!-- 3 · CONTRIBUTION + THANK YOU -->
+  <section class="center" data-background-gradient="radial-gradient(1100px 600px at 50% 0%, #1b2c4d, #0a0f1c 60%, #05080f)">
+    <div class="kicker" style="text-align:center">Contribution</div>
+    <h2 style="text-align:center">Thank you</h2>
+    <hr class="rule" style="margin-left:auto;margin-right:auto">
+    <p style="max-width:80%;margin:0 auto;">FORGE-Vision shows that <span class="gold">real-time, explainable, AI-generated guidance</span> can be delivered on everyday hardware — and that the platform doubles as a <span class="gold">rigorous instrument</span> for testing how people learn.</p>
+    <p style="text-align:center;margin-top:1.4em" class="big gold"><b>Questions welcome.</b></p>
+    <p style="text-align:center;margin-top:.6em" class="sub">Presented by <span class="gold">Mashkur Alam</span></p>
+    <div class="footer" style="left:50%;transform:translateX(-50%)">MASHKUR ALAM · PROF. DR. KARIM MOHAMMED REZAUL · DBA</div>
+  </section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash:true, controls:true, progress:true, slideNumber:'c/t', transition:'slide', backgroundTransition:'fade', width:1280, height:720, margin:0.06 });
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "forge-vision-presentation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Automated video walkthrough capture for FORGE-Vision (DBA viva).",
+  "scripts": {
+    "capture": "node capture.mjs"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "playwright": "^1.61.1"
+  }
+}

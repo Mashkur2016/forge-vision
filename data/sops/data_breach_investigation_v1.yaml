@@ -1,0 +1,127 @@
+id: data_breach_investigation_v1
+name: Data Breach Investigation Process
+version: "1.0"
+category: Cybersecurity
+department: IT Security
+estimated_duration_seconds: 8700
+required_ppe: []
+steps:
+  - id: 1
+    name: confirm_breach_and_notify_leadership
+    description: Verify the data breach through multiple sources. Immediately notify Chief Information Security Officer, Legal, and Executive Leadership. Escalate as Critical incident.
+    required_objects: [communication_system, incident_notification_list]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: true
+    required_ppe: []
+
+  - id: 2
+    name: identify_affected_data_and_scope
+    description: Determine what data was accessed, when the breach occurred, how many records were affected, and what personally identifiable information (PII) is involved.
+    required_objects: [database_audit_logs, data_inventory_system, analysis_tools]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: identify_affected_individuals
+    description: Create a list of all individuals whose data was compromised. Include names, email addresses, phone numbers, and types of personal information exposed.
+    required_objects: [database_query_tools, data_extraction_system, spreadsheet_application]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: collect_forensic_evidence
+    description: Preserve all evidence related to the breach including access logs, database change logs, network traffic, and system artifacts. Chain of custody must be maintained.
+    required_objects: [forensic_toolkit, evidence_storage, chain_of_custody_documentation]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 1200
+    safety_critical: true
+    required_ppe: []
+
+  - id: 5
+    name: assess_regulatory_notification_requirements
+    description: Determine legal notification obligations under GDPR, CCPA, state breach notification laws, or industry regulations. Consult with Legal and Compliance teams.
+    required_objects: [regulatory_requirements_database, legal_consultation_log]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: prepare_breach_notification_communications
+    description: Draft breach notification letters for affected individuals, regulatory agencies, and credit reporting bureaus as required. Include recommended actions and monitoring options.
+    required_objects: [notification_template, communication_system, legal_review_process]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: send_notifications_to_affected_parties
+    description: Send breach notifications to affected individuals via email, postal mail, and phone as appropriate. Document all notifications and delivery confirmations.
+    required_objects: [email_system, postal_service, phone_system, notification_tracking]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: notify_regulatory_authorities_and_credit_bureaus
+    description: Submit required breach notifications to regulatory authorities (e.g., HM Information Commissioner's Office for GDPR), credit bureaus, and media outlets as mandated.
+    required_objects: [regulatory_contact_list, notification_submission_system]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 600
+    safety_critical: true
+    required_ppe: []
+
+  - id: 9
+    name: offer_credit_monitoring_and_support
+    description: Arrange credit monitoring, identity theft protection services, and legal support for affected individuals. Publicize available resources and establish support hotline.
+    required_objects: [credit_monitoring_vendor, support_resources_list, hotline_system]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: conduct_root_cause_and_forensic_analysis
+    description: Perform detailed forensic analysis to determine how the breach occurred, what vulnerabilities were exploited, and whether data was actually exfiltrated.
+    required_objects: [forensic_analysis_tools, evidence_files, expert_resources]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 1200
+    safety_critical: false
+    required_ppe: []
+
+  - id: 11
+    name: implement_remediation_measures
+    description: Close vulnerabilities exploited in the breach, implement additional security controls, and strengthen access controls and monitoring to prevent recurrence.
+    required_objects: [remediation_plan, security_tools, patch_management_system]
+    required_pose: null
+    must_follow: [10]
+    time_limit_seconds: 1200
+    safety_critical: false
+    required_ppe: []
+
+  - id: 12
+    name: prepare_final_breach_report
+    description: Compile comprehensive breach report including timeline, affected data, notification actions, root cause findings, and recommendations for preventing similar breaches.
+    required_objects: [forensic_report_template, communication_system, stakeholder_list]
+    required_pose: null
+    must_follow: [11]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []

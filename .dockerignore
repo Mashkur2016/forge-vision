@@ -1,0 +1,58 @@
+# Version control
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Secrets — never bake into image
+.env
+
+# Model weights (large binaries)
+models/
+# …but the trained checkpoint IS needed by the HF Space image (Dockerfile.hf).
+!models/action_recognizer_best.pth
+
+# Raw / real data (GDPR — never in image)
+data/real/
+
+# Test artefacts
+tests/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Notebooks
+notebooks/
+
+# Logs and dev artefacts
+logs_*.txt
+*.log
+forgevision_dev.db
+
+# Frontend node_modules
+frontend/node_modules/
+frontend/dist/
+
+# Assembled HF Space repo (output of scripts/build_hf_space.py)
+hf_space_build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

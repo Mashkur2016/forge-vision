@@ -1,0 +1,87 @@
+id: classroom_av_setup_v1
+name: Classroom AV and Technology Setup
+version: "1.0"
+category: Teaching and Learning
+department: Academic Staff
+estimated_duration_seconds: 600
+required_ppe: []
+steps:
+  - id: 1
+    name: check_room_booking
+    description: Verify the room booking on the display panel or timetable sheet. Confirm the correct room number and time slot match your class.
+    required_objects: [timetable_sheet, room_display]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: power_on_projector
+    description: Locate the projector remote or wall panel. Press the power button and wait for the projector to warm up (approximately 30 seconds).
+    required_objects: [projector_remote, projector]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: connect_laptop
+    description: Connect the laptop to the HDMI or VGA port on the lectern. Ensure the cable is fully inserted and the laptop lid is open.
+    required_objects: [laptop, hdmi_cable, lectern]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: set_display_output
+    description: On the laptop press the display key (Windows+P) and select Duplicate or Extend. Confirm the projector is showing the correct image.
+    required_objects: [laptop, projector]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 90
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: test_audio
+    description: Play a short audio clip to test room speakers. Adjust the volume on the lectern audio panel to an appropriate level for the room size.
+    required_objects: [laptop, audio_panel]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: log_into_virtual_learning_environment
+    description: Open the browser and log into the Virtual Learning Environment. Navigate to the correct module page and confirm resources are accessible.
+    required_objects: [laptop, keyboard]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 90
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: prepare_attendance_register
+    description: Open or print the attendance register for the session. Place on the lectern ready for students to sign or mark electronically.
+    required_objects: [attendance_register, pen]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: write_learning_objectives
+    description: Write or display the session learning objectives on the whiteboard or presentation slide. Ensure they are clearly visible from all seats in the room.
+    required_objects: [whiteboard, whiteboard_marker]
+    required_pose: standing
+    must_follow: [7]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []

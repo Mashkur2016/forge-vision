@@ -1,0 +1,69 @@
+# FORGE-Vision — Web Service Requirements
+# Used by Docker: API backend + Streamlit UI only.
+# Includes mediapipe + ultralytics for the real-time session inference pipeline.
+
+# Web framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.12
+
+# Database
+sqlalchemy==2.0.35
+asyncpg==0.29.0
+aiosqlite==0.20.0
+alembic==1.13.3
+
+# Data validation
+pydantic==2.9.2
+pydantic-settings==2.5.2
+email-validator==2.2.0
+
+# Security & encryption
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+python-jose[cryptography]==3.3.0
+# Pinned at 48.0.1 (was bumped from 43.0.3 during the now-removed WebRTC work;
+# kept current and verified against the full test suite).
+cryptography==48.0.1
+pyotp==2.9.0
+slowapi==0.1.9
+
+# HTTP client
+httpx==0.27.2
+
+# LLM SDKs
+openai==1.51.0
+anthropic==0.36.2
+google-generativeai==0.8.3
+
+# UI
+streamlit==1.39.0
+altair==5.4.1
+pandas==2.2.3
+pyarrow==17.0.0                  # Streamlit table rendering; unpinned latest requires NumPy>=2 (we pin 1.26.4)
+
+# Computer Vision
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+pyyaml==6.0.2
+mediapipe==0.10.14
+ultralytics==8.3.2
+
+# PyTorch CPU-only (needed for model classes used by the API session route)
+# CPU build is ~300MB vs ~2GB for the CUDA build — acceptable for the dashboard/API
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.0+cpu
+torchvision==0.19.0+cpu
+
+# Scientific computing (evaluation + hypothesis testing)
+scipy==1.14.1
+scikit-learn==1.5.2
+
+# Utilities
+python-dotenv==1.0.1
+structlog==24.4.0
+websocket-client==1.8.0
+pyttsx3==2.90
+
+# PDF report generation (Report Generator page)
+fpdf2==2.8.2

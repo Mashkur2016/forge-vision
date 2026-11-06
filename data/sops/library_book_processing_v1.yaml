@@ -1,0 +1,87 @@
+id: library_book_processing_v1
+name: Library Book Acquisition and Processing
+version: "1.0"
+category: Library Services
+department: Library
+estimated_duration_seconds: 600
+required_ppe: []
+steps:
+  - id: 1
+    name: receive_and_check_delivery
+    description: Receive the delivery of new books. Check the packing list against items received. Report any discrepancies or damaged items to the acquisitions supervisor immediately.
+    required_objects: [book, packing_list, pen]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: apply_library_ownership_stamp
+    description: Stamp the library ownership mark on the top page edge, the title page, and the designated stamping page. Use the official library ink stamp only.
+    required_objects: [book, library_stamp, ink_pad]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: catalogue_on_library_system
+    description: Enter the book details into the library management system including ISBN, title, author, publisher, edition, subject classification, and number of copies.
+    required_objects: [book, keyboard, monitor, barcode_scanner]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: attach_barcode_label
+    description: Print the barcode label from the library system and affix it to the inside front cover. Scan the barcode to confirm it registers correctly in the catalogue.
+    required_objects: [book, barcode_label, barcode_scanner]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: apply_rfid_security_tag
+    description: Attach the RFID security tag to the designated page inside the book. Activate the tag using the RFID writer. Test the tag at the security gate sensor before shelving.
+    required_objects: [book, rfid_tag, rfid_writer]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: apply_spine_label
+    description: Print the Dewey Decimal or classification spine label. Affix the label to the bottom of the book spine and cover with protective clear laminate film.
+    required_objects: [book, spine_label, clear_film]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: shelve_in_correct_location
+    description: Locate the correct shelf section using the Dewey Decimal classification. Place the book in the correct alphabetical order by author surname within the class.
+    required_objects: [book, shelf_guide]
+    required_pose: standing
+    must_follow: [6]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: update_acquisitions_record
+    description: Mark the title as processed in the acquisitions record and update the stock count. Notify the academic liaison librarian that new stock is available on the shelves.
+    required_objects: [acquisitions_record, pen]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []

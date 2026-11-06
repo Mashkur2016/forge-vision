@@ -1,0 +1,136 @@
+# FORGE-Vision — Production stack (self-hosted).
+#
+# Mirrors the proven Hugging Face Space topology as a multi-container deploy:
+#   Browser ──HTTPS──► caddy ──► api (FastAPI /api,/ws)  ──► db (Postgres)
+#                            └──► ui  (Streamlit, native login)
+#
+# Differences from docker-compose.yml (development):
+#   • No bind-mounted source and no --reload — code is baked into the image.
+#   • Streamlit uses its NATIVE login (UI_STANDALONE_LOGIN=1); React is not run.
+#   • TLS is terminated by Caddy (Let's Encrypt), so the app speaks plain HTTP
+#     internally and no host ports are published for db/api/ui.
+#   • Migrations + optional first-boot synthetic seed run on api startup.
+#
+# Usage:
+#   cp .env.production.example .env.production   # then fill in real values
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# Requires on the host: ./data (SOPs), ./models/action_recognizer_best.pth.
+
+services:
+  # ── PostgreSQL (internal only — not published) ───────────
+  db:
+    image: postgres:16-alpine
+    container_name: forge_prod_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-forgevision}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+      POSTGRES_DB: ${POSTGRES_DB:-forgevision}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-forgevision}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── FastAPI backend (internal only) ──────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: forgevision:prod
+    container_name: forge_prod_api
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://${POSTGRES_USER:-forgevision}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-forgevision}}
+      ENVIRONMENT: production
+      PYTHONPATH: /app
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      # REQUIRED in production — the app refuses to boot on the dev defaults.
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY:?SETTINGS_ENCRYPTION_KEY must be set}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?JWT_SECRET_KEY must be set}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-${DOMAIN}}
+      SEED_ON_START: ${SEED_ON_START:-0}
+      LLM_PROVIDER: ${LLM_PROVIDER:-groq}
+      LLM_MODEL: ${LLM_MODEL:-llama-3.3-70b-versatile}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      # Runtime assets only (code is baked in the image). The model + SOPs are
+      # environment-specific and must exist on the host.
+      - ./data:/app/data:ro
+      - ./models:/app/models:ro
+      - ./experiments:/app/experiments   # continual-learning run records + checkpoints
+    # Single worker: the realtime session manager holds in-memory session state
+    # and loads the CV models once — multiple workers would duplicate both.
+    command: >
+      sh -c "alembic upgrade head &&
+      { [ \"$$SEED_ON_START\" = '1' ] && python -m src.evaluation.seed_simulation_data --if-empty || true; } &&
+      uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*'"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+
+  # ── Streamlit UI (internal only, native login) ───────────
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: forgevision:prod
+    container_name: forge_prod_ui
+    environment:
+      API_BASE_URL: http://api:8000
+      UI_STANDALONE_LOGIN: "1"        # React is not deployed — use Streamlit's own login
+      PYTHONPATH: /app
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY:?SETTINGS_ENCRYPTION_KEY must be set}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?JWT_SECRET_KEY must be set}
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://${POSTGRES_USER:-forgevision}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-forgevision}}
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data:ro            # SOP fallback loader
+    # No SSL flags — Caddy terminates TLS. CORS/XSRF off because we're behind
+    # the reverse proxy at a single origin.
+    command: >
+      streamlit run src/ui/app.py
+      --server.port 8501
+      --server.address 0.0.0.0
+      --server.headless true
+      --server.enableCORS false
+      --server.enableXsrfProtection false
+      --browser.gatherUsageStats false
+    restart: unless-stopped
+
+  # ── Caddy reverse proxy (public 80/443, auto-HTTPS) ──────
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: forge_prod_caddy
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN must be set (e.g. forge.example.com)}
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL must be set for Let's Encrypt}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data                # certificates persist across restarts
+      - caddy_config:/config
+    depends_on:
+      - api
+      - ui
+    restart: unless-stopped
+
+volumes:
+  postgres_data_prod:
+  caddy_data:
+  caddy_config:

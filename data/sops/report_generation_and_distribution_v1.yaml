@@ -1,0 +1,97 @@
+id: report_generation_and_distribution_v1
+name: Report Generation and Distribution
+version: "1.0"
+category: Business Intelligence
+department: Business Intelligence
+estimated_duration_seconds: 3000
+required_ppe: []
+steps:
+  - id: 1
+    name: schedule_report_generation
+    description: Schedule report generation for specified frequency (daily, weekly, monthly). Configure report parameters including date range, filters, and recipient list.
+    required_objects: [report_scheduling_system, report_definition, email_system]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: execute_report_query
+    description: Execute report query against data warehouse or data mart. Retrieve all necessary data for report generation. Validate data availability and completeness.
+    required_objects: [reporting_engine, query_definitions, data_warehouse]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: generate_report_document
+    description: Generate report document (PDF, Excel, PowerPoint) with formatted tables, charts, and text. Apply branding, logos, and formatting standards. Verify readability and layout.
+    required_objects: [report_generation_tool, template_library, formatting_standards]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: apply_data_masking_and_security
+    description: Apply row-level data masking based on recipient role/department. Redact sensitive information, apply watermarks, and configure print/download restrictions where needed.
+    required_objects: [masking_tool, recipient_access_matrix, watermarking_software]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: validate_report_accuracy
+    description: Review report for accuracy, completeness, and correctness of calculations. Compare key figures with previous periods and verify no data anomalies are present.
+    required_objects: [validation_checklist, historical_reports, calculation_documentation]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: distribute_report_via_email
+    description: Send report via email to distribution list with brief summary and key highlights. Include call-to-action for questions or feedback. Track delivery confirmation.
+    required_objects: [email_system, distribution_list, email_template]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: upload_to_report_repository
+    description: Upload report to centralized repository or document management system with appropriate metadata tags, version information, and access controls.
+    required_objects: [document_repository, metadata_template, version_control_system]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: update_report_dashboard
+    description: Update report tracking dashboard with delivery timestamp, recipient count, and execution status. Log any errors or issues encountered during generation and distribution.
+    required_objects: [report_tracking_dashboard, logging_system]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: gather_recipient_feedback
+    description: Monitor email replies and feedback channels for recipient questions, requests for modifications, or data discrepancies. Document feedback for future improvements.
+    required_objects: [email_system, feedback_tracking, change_request_system]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

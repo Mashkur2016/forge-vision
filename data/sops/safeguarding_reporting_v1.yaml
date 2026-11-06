@@ -1,0 +1,87 @@
+id: safeguarding_reporting_v1
+name: Safeguarding Concern Reporting Procedure
+version: "1.0"
+category: Safeguarding
+department: All Departments
+estimated_duration_seconds: 1020
+required_ppe: []
+steps:
+  - id: 1
+    name: ensure_immediate_safety
+    description: If a child or vulnerable adult is in immediate danger, call 999 first. Do not leave the individual alone if they are distressed or at risk of harm.
+    required_objects: [telephone]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: []
+
+  - id: 2
+    name: listen_without_interviewing
+    description: Allow the individual to speak without interruption. Use open non-leading questions only. Tell them you will need to share what they tell you — never promise confidentiality.
+    required_objects: [private_room]
+    required_pose: sitting
+    must_follow: [1]
+    time_limit_seconds: 300
+    safety_critical: true
+    required_ppe: []
+
+  - id: 3
+    name: record_disclosure_immediately
+    description: Write down exactly what was said using the individual's own words. Note the date, time, location, and any visible signs of harm. Do not interpret or alter the account.
+    required_objects: [safeguarding_form, pen]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: true
+    required_ppe: []
+
+  - id: 4
+    name: preserve_any_evidence
+    description: Do not clean, move, or disturb any physical evidence. If there is a visible injury, note its location and appearance but do not photograph without authorisation.
+    required_objects: [evidence_bag]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: []
+
+  - id: 5
+    name: report_to_designated_safeguarding_lead
+    description: Contact the Designated Safeguarding Lead (DSL) immediately by phone or in person. Do not send details by email or text. Share your written record directly.
+    required_objects: [telephone, safeguarding_form]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: []
+
+  - id: 6
+    name: complete_official_safeguarding_form
+    description: Complete the institution's official safeguarding referral form in full. Include your name, role, and contact details. Sign and date the form before submission.
+    required_objects: [safeguarding_form, pen]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 180
+    safety_critical: true
+    required_ppe: []
+
+  - id: 7
+    name: submit_form_to_dsl
+    description: Hand the completed form directly to the DSL in person. Do not leave it unattended or share with unauthorised persons. Obtain confirmation of receipt.
+    required_objects: [safeguarding_form]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: []
+
+  - id: 8
+    name: record_in_personal_log
+    description: Make a personal note of the date and time you reported the concern and to whom. Store this securely. You may be contacted by statutory services for further information.
+    required_objects: [personal_log, pen]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []

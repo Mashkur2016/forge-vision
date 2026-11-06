@@ -1,0 +1,87 @@
+id: student_enrolment_v1
+name: Student Enrolment and Identity Verification
+version: "1.0"
+category: Administration
+department: Registry
+estimated_duration_seconds: 1020
+required_ppe: []
+steps:
+  - id: 1
+    name: verify_identity_documents
+    description: Request and inspect the student's original photographic ID (passport or national ID card). Check that the photo matches the individual in front of you.
+    required_objects: [passport, student_id_card, pen]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: []
+
+  - id: 2
+    name: confirm_offer_and_conditions
+    description: Confirm the student holds a valid unconditional offer letter for the correct programme and year. Check all academic and English language conditions have been met.
+    required_objects: [offer_letter, checklist]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: verify_fee_payment_status
+    description: Check the student finance record to confirm tuition fee payment or an approved student loan is in place. Do not proceed if fees are outstanding without authorisation.
+    required_objects: [keyboard, monitor]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: []
+
+  - id: 4
+    name: register_on_student_information_system
+    description: Create or activate the student record in the Student Information System. Confirm programme, academic year, mode of study (full-time or part-time), and campus.
+    required_objects: [keyboard, monitor]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 180
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: issue_student_id_card
+    description: Take the student's photograph using the ID card camera. Print and laminate the student ID card. Confirm the card number matches the student record before handing over.
+    required_objects: [id_card_camera, id_card_printer, student_id_card]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: activate_it_account
+    description: Set up the student's institutional email address and IT account credentials. Provide login details securely and confirm the student can access the VLE.
+    required_objects: [keyboard, monitor]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: obtain_gdpr_consent
+    description: Present the data privacy notice and GDPR consent form. Allow the student to read it fully. Obtain a signed copy and retain it on the student file immediately.
+    required_objects: [gdpr_consent_form, pen]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: []
+
+  - id: 8
+    name: hand_over_welcome_pack
+    description: Provide the student with their welcome pack including timetable, campus map, and student handbook. Confirm their personal tutor allocation and next key dates.
+    required_objects: [welcome_pack, timetable_sheet]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []

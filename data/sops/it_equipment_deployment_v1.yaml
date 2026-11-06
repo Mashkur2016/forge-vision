@@ -1,0 +1,87 @@
+id: it_equipment_deployment_v1
+name: IT Equipment Deployment and Configuration
+version: "1.0"
+category: IT Services
+department: IT Support
+estimated_duration_seconds: 1140
+required_ppe: []
+steps:
+  - id: 1
+    name: log_device_from_inventory
+    description: Locate the device in the IT asset management system. Mark it as In Deployment and note the asset tag number, device model, and serial number.
+    required_objects: [laptop, asset_tag, keyboard]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: apply_security_labels
+    description: Attach the institution's asset label and security marking sticker to the device. Labels must be on the underside and clearly visible for auditing.
+    required_objects: [laptop, asset_label, sticker]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: power_on_and_run_updates
+    description: Power on the device. Connect to the IT deployment network and run all available operating system and security updates. Do not skip security patches.
+    required_objects: [laptop, network_cable, keyboard]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: install_required_software
+    description: Install the standard software bundle from the deployment server including office suite, antivirus, VPN client, and e-learning platform. Verify each application launches.
+    required_objects: [laptop, keyboard, monitor]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: configure_network_and_email
+    description: Join the device to the institutional domain. Configure the email client with the assigned user account. Test sending and receiving an email to confirm setup.
+    required_objects: [laptop, keyboard, monitor]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: run_diagnostic_test
+    description: Run the standard hardware diagnostic tool to check battery health, storage, RAM, and camera function. Record the results in the asset management system.
+    required_objects: [laptop, keyboard, monitor]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: enable_full_disk_encryption
+    description: Enable full-disk encryption (BitLocker or equivalent). Store the recovery key in the IT password management system — never on the device itself.
+    required_objects: [laptop, keyboard]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: []
+
+  - id: 8
+    name: hand_over_to_end_user
+    description: Present the device to the end user. Obtain a signed equipment receipt form. Brief the user on acceptable use policy, password requirements, and fault reporting.
+    required_objects: [laptop, equipment_receipt_form, pen]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []

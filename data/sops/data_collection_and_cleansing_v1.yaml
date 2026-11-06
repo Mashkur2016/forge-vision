@@ -1,0 +1,107 @@
+id: data_collection_and_cleansing_v1
+name: Data Collection and Cleansing
+version: "1.0"
+category: Data Analytics
+department: Analytics Engineering
+estimated_duration_seconds: 3600
+required_ppe: []
+steps:
+  - id: 1
+    name: define_data_collection_requirements
+    description: Define data collection requirements including data sources, fields needed, granularity level, frequency of collection, and quality standards to be met.
+    required_objects: [requirements_document, data_catalog, quality_standards]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: extract_raw_data_from_sources
+    description: Extract raw data from identified sources (APIs, databases, files, web services). Document data source lineage and extraction timestamp for data governance.
+    required_objects: [data_extraction_tools, api_credentials, database_connections]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: perform_initial_data_inspection
+    description: Inspect raw data for structure, row counts, field types, and obvious data quality issues. Identify missing values, duplicates, and unexpected data patterns.
+    required_objects: [data_profiling_tool, inspection_scripts, data_summary_report]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: identify_and_handle_missing_values
+    description: Identify missing or null values in key fields. Decide on handling strategy (removal, imputation, or flagging). Document decisions and apply transformations consistently.
+    required_objects: [data_analysis_tool, imputation_scripts, missing_value_policy]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: remove_and_deduplicate_records
+    description: Identify and remove duplicate records using primary key combinations and fuzzy matching. Document deduplication criteria and maintain audit trail of removed records.
+    required_objects: [deduplication_tool, matching_algorithm, audit_log]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: standardize_data_formats
+    description: Standardize data formats including date formats, number formats, string case, and categorical values. Apply consistent formatting rules across all fields.
+    required_objects: [data_transformation_tool, format_specification, transformation_rules]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: validate_data_ranges_and_domains
+    description: Validate that numeric fields are within expected ranges and categorical fields contain only expected values. Flag outliers and out-of-range values for review.
+    required_objects: [validation_rules, range_specification, outlier_analysis_tool]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: check_referential_integrity
+    description: Verify referential integrity across related datasets (foreign key relationships). Identify orphaned records and flag inconsistencies for investigation.
+    required_objects: [referential_integrity_tool, schema_definition, reconciliation_queries]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: document_data_quality_issues
+    description: Create comprehensive data quality report documenting all issues found, resolution actions taken, and records affected. Provide traceability for audit purposes.
+    required_objects: [quality_report_template, issue_tracking_system]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: store_cleaned_data
+    description: Store cleaned and validated data in data repository. Maintain backup of original raw data. Apply appropriate access controls and data governance policies.
+    required_objects: [data_repository, backup_system, access_control_system]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

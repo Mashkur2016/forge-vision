@@ -1,0 +1,39 @@
+# FORGE-Vision — production reverse proxy (self-hosted).
+#
+# One public entry on 80/443 for the whole app. Caddy obtains and renews a
+# Let's Encrypt certificate for $DOMAIN automatically (HTTP-01), terminates
+# TLS, and proxies plain HTTP to the internal services on the compose network:
+#
+#   /api/*, /ws/*, /health  → FastAPI  (api:8000)   — REST + live-camera WebSocket
+#   everything else         → Streamlit (ui:8501)   — native-login dashboard
+#
+# This mirrors the proven Hugging Face Space topology (space/Caddyfile), but
+# binds a real domain with automatic HTTPS instead of HF's single plain port.
+
+{
+	# ACME account email for Let's Encrypt expiry/renewal notices.
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	encode gzip
+
+	# FastAPI: REST API + the live-camera WebSocket (/api/v1/ws/live).
+	# /docs and /redoc are intentionally disabled by the app in production.
+	@backend path /api/* /ws/* /health
+	handle @backend {
+		reverse_proxy api:8000 {
+			# Forward the real client IP/scheme so rate-limiting + HSTS behave.
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+
+	# Everything else → Streamlit (its own WebSocket at /_stcore/stream included;
+	# Caddy upgrades WebSockets automatically). flush_interval -1 disables
+	# response buffering so Streamlit's long-lived SSE stream isn't held/dropped.
+	handle {
+		reverse_proxy ui:8501 {
+			flush_interval -1
+		}
+	}
+}

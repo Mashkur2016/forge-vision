@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE-Vision — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D2461;
+    --navy-mid: #162d72;
+    --navy-light: #1e3a8a;
+    --silver: #A8B4C8;
+    --silver-light: #C8D4E4;
+    --white: #FFFFFF;
+    --off-white: #F8FAFC;
+    --black: #0F172A;
+    --grey: #64748B;
+    --error: #DC2626;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Raleway', sans-serif;
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 35% 1fr;
+    height: 100vh;
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Geometric accent */
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 350px;
+    height: 350px;
+    border: 60px solid rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+
+  .sidebar::after {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 220px;
+    height: 220px;
+    border: 40px solid rgba(168,180,200,0.06);
+    border-radius: 50%;
+  }
+
+  .sidebar-inner {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.6rem;
+  }
+
+  .logo-wrap img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+  }
+
+  .product-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    margin-bottom: 0.4rem;
+  }
+
+  .product-sub {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 2.5rem;
+  }
+
+  /* Silver divider */
+  .s-rule {
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--silver), transparent);
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    flex: 1;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(168,180,200,0.12);
+    border: 1px solid rgba(168,180,200,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .feature-text h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.15rem;
+  }
+
+  .feature-text p {
+    font-size: 0.73rem;
+    color: var(--silver);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .version-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(168,180,200,0.12);
+    border: 1px solid rgba(168,180,200,0.2);
+    border-radius: 100px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--silver-light);
+    letter-spacing: 0.05em;
+    margin-top: auto;
+  }
+
+  .version-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .main {
+    background: var(--off-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 4rem;
+    position: relative;
+    border-left: 1px solid var(--silver-light);
+    animation: panelIn 0.5s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .form-wrap {
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .form-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.35rem;
+  }
+
+  .form-sub {
+    font-size: 0.87rem;
+    color: var(--grey);
+    font-weight: 400;
+    margin-bottom: 2rem;
+  }
+
+  .field { margin-bottom: 1.25rem; }
+
+  label {
+    display: block;
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 0.45rem;
+  }
+
+  .input-wrap { position: relative; }
+
+  .input-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: var(--silver);
+    pointer-events: none;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100%;
+    padding: 0.82rem 1rem 0.82rem 2.5rem;
+    border: 1.5px solid #D9E2EF;
+    border-radius: 8px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.92rem;
+    color: var(--black);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(13,36,97,0.08);
+  }
+
+  input.error-field {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
+  }
+
+  .toggle-pw {
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--silver);
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .toggle-pw:hover { color: var(--navy); }
+
+  .field-error {
+    color: var(--error);
+    font-size: 0.75rem;
+    margin-top: 0.28rem;
+    display: none;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.6rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.84rem;
+    color: var(--grey);
+    cursor: pointer;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 500;
+  }
+  .checkbox-label input {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--navy);
+  }
+
+  .forgot {
+    font-size: 0.84rem;
+    color: var(--navy);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--silver-light);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .forgot:hover { border-color: var(--navy); }
+
+  .btn-submit {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(13,36,97,0.25);
+  }
+  .btn-submit:hover {
+    background: var(--navy-light);
+    box-shadow: 0 6px 24px rgba(13,36,97,0.35);
+  }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2.5px solid rgba(255,255,255,0.3);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .global-error {
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    color: var(--error);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.84rem;
+    margin-bottom: 1.2rem;
+    display: none;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.5rem 0 1.1rem;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #D9E2EF;
+  }
+  .divider span {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .register-link {
+    text-align: center;
+    font-size: 0.87rem;
+    color: var(--grey);
+    font-weight: 500;
+  }
+  .register-link a {
+    color: var(--navy);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--silver-light);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .register-link a:hover { border-color: var(--navy); }
+
+  .gdpr {
+    text-align: center;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    margin-top: 1.8rem;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-inner">
+      <div class="logo-wrap">
+        <img src="logo4.jpg" alt="FORGE-Vision">
+      </div>
+      <div class="product-name">FORGE<br>VISION</div>
+      <div class="product-sub">AI Training Platform</div>
+      <div class="s-rule"></div>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">📹</div>
+          <div class="feature-text">
+            <h4>Real-Time Monitoring</h4>
+            <p>Live camera analysis with instant deviation detection.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-text">
+            <h4>AI-Generated Feedback</h4>
+            <p>LLM-powered corrective guidance tailored to each worker.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📋</div>
+          <div class="feature-text">
+            <h4>SOP Compliance</h4>
+            <p>Tracks adherence to Standard Operating Procedures step-by-step.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📊</div>
+          <div class="feature-text">
+            <h4>Analytics Dashboard</h4>
+            <p>Performance trends, leaderboards, and competency forecasts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="version-badge">
+        <span class="version-dot"></span>
+        v2.0 · DBA Research · Coventry University
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="main">
+    <div class="form-wrap">
+      <div class="form-eyebrow">Welcome back</div>
+      <div class="form-title">Sign In</div>
+      <div class="form-sub">Access your training dashboard and sessions.</div>
+
+      <div class="global-error" id="globalError"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉</span>
+            <input type="email" id="email" placeholder="you@company.com" autocomplete="email">
+          </div>
+          <div class="field-error" id="emailErr">Please enter a valid email address.</div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="toggle-pw" onclick="togglePw()">👁</button>
+          </div>
+          <div class="field-error" id="pwErr">Password is required.</div>
+        </div>
+
+        <div class="row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember"> Remember me
+          </label>
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <div class="spinner" id="spinner"></div>
+          <span id="btnText">Sign In →</span>
+        </button>
+      </form>
+
+      <div class="divider"><span>OR</span></div>
+      <div class="register-link">Don't have an account? <a href="#">Register here</a></div>
+      <div class="gdpr">🔒 Secured · GDPR Compliant · AES-256 Encrypted</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePw() {
+  const p = document.getElementById('password');
+  p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email     = document.getElementById('email');
+  const pw        = document.getElementById('password');
+  const emailErr  = document.getElementById('emailErr');
+  const pwErr     = document.getElementById('pwErr');
+  const globalErr = document.getElementById('globalError');
+  let valid = true;
+
+  emailErr.style.display = 'none'; email.classList.remove('error-field');
+  pwErr.style.display    = 'none'; pw.classList.remove('error-field');
+  globalErr.style.display = 'none';
+
+  if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    emailErr.style.display = 'block'; email.classList.add('error-field'); valid = false;
+  }
+  if (!pw.value) {
+    pwErr.style.display = 'block'; pw.classList.add('error-field'); valid = false;
+  }
+  if (!valid) return;
+
+  const btn     = document.getElementById('submitBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Signing in…';
+
+  setTimeout(() => {
+    btn.disabled = false; spinner.style.display = 'none'; btnText.textContent = 'Sign In →';
+    globalErr.textContent = 'Invalid email or password. Please try again.';
+    globalErr.style.display = 'block';
+  }, 1800);
+});
+</script>
+</body>
+</html>

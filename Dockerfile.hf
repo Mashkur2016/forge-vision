@@ -1,0 +1,61 @@
+# FORGE-Vision — Hugging Face Space image (single container).
+# Runs the FastAPI backend (:8000 internal) + Streamlit UI (:7860 public) under
+# supervisord. Build context = repo root.
+#   Local test:  docker build -f Dockerfile.hf -t forge-space .
+#   HF Space:    this file is the Space repo's root `Dockerfile` (see DEPLOYMENT.md).
+# Caddy reverse proxy (single public port → FastAPI + Streamlit)
+FROM caddy:2.8-alpine AS caddy
+
+FROM python:3.11-slim
+
+# System deps:
+#  - gcc / libpq-dev : bcrypt/cryptography/asyncpg C extensions
+#  - libgl1 / libglib2.0-0 : OpenCV + MediaPipe
+#  - ffmpeg / libsrtp2-dev : aiortc / av (WebRTC media)
+#  - supervisor : run API + UI together
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        gcc \
+        libpq-dev \
+        libgl1 \
+        libglib2.0-0 \
+        ffmpeg \
+        libsrtp2-dev \
+        curl \
+        supervisor \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Python deps (cached layer)
+COPY requirements-web.txt .
+RUN pip install --no-cache-dir -r requirements-web.txt
+
+# Pre-download YOLOv8n so the container doesn't fetch weights at first request.
+RUN python -c "from ultralytics import YOLO; YOLO('yolov8n.pt')"
+
+# Application source + trained model (model ships via Git LFS in the Space repo)
+COPY src/ ./src/
+COPY .streamlit/ ./.streamlit/
+COPY config/ ./config/
+COPY data/sops/ ./data/sops/
+COPY alembic.ini .
+COPY alembic/ ./alembic/
+COPY models/ ./models/
+COPY space/supervisord.conf ./space/supervisord.conf
+COPY space/Caddyfile ./space/Caddyfile
+COPY space/start.sh ./space/start.sh
+RUN chmod +x ./space/start.sh
+
+# Caddy reverse proxy binary (from the official image)
+COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
+
+ENV PYTHONPATH=/app \
+    PYTHONUNBUFFERED=1 \
+    PYTHONUTF8=1 \
+    API_BASE_URL=http://localhost:8000 \
+    UI_STANDALONE_LOGIN=1
+
+# HF Spaces route public traffic to this single port.
+EXPOSE 7860
+
+CMD ["./space/start.sh"]

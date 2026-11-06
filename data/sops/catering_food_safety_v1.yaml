@@ -1,0 +1,87 @@
+id: catering_food_safety_v1
+name: Catering Food Safety and Hygiene Checks
+version: "1.0"
+category: Food Safety
+department: Catering Services
+estimated_duration_seconds: 960
+required_ppe: [hair_net, apron, gloves]
+steps:
+  - id: 1
+    name: personal_hygiene_check
+    description: Before entering the food preparation area, ensure you are wearing a clean uniform, hair net, and apron. Remove all jewellery except a plain wedding band.
+    required_objects: [hair_net, apron, uniform]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: [hair_net, apron]
+
+  - id: 2
+    name: wash_hands
+    description: Wash hands thoroughly for a minimum of 20 seconds using antibacterial soap and warm water. Dry with a disposable paper towel. Never use a shared cloth towel.
+    required_objects: [soap_dispenser, paper_towel, sink]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: []
+
+  - id: 3
+    name: check_delivery_temperatures
+    description: Using a calibrated probe thermometer, check the temperature of all chilled deliveries (must be 5 degrees C or below) and frozen items (must be -18 degrees C or below).
+    required_objects: [probe_thermometer, delivery_box, temperature_log]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 180
+    safety_critical: true
+    required_ppe: [gloves]
+
+  - id: 4
+    name: inspect_use_by_dates
+    description: Check all food items for use-by and best-before dates. Remove and quarantine any items past their use-by date. Label all opened items with the date of opening.
+    required_objects: [food_item, date_label, pen]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 180
+    safety_critical: true
+    required_ppe: [gloves]
+
+  - id: 5
+    name: clean_and_sanitise_surfaces
+    description: Clean all preparation surfaces with food-safe detergent, rinse with clean water, then apply food-safe sanitiser. Allow to air dry — do not wipe with a cloth.
+    required_objects: [cleaning_spray, sanitiser, paper_towel, preparation_surface]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 180
+    safety_critical: true
+    required_ppe: [gloves, apron]
+
+  - id: 6
+    name: verify_allergen_information
+    description: Confirm allergen information is correctly displayed for all menu items. Check that cross-contamination controls are in place for the 14 major allergens.
+    required_objects: [allergen_matrix, menu_board, pen]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: []
+
+  - id: 7
+    name: check_cooking_temperatures
+    description: Using the probe thermometer, verify all hot food reaches a core temperature of 75 degrees C or above. Record the temperature of each dish in the cooking log.
+    required_objects: [probe_thermometer, cooking_temperature_log, pen, food_item]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: [gloves, apron]
+
+  - id: 8
+    name: complete_food_safety_checklist
+    description: Complete and sign the daily food safety opening checklist. Record temperature readings, cleaning actions, and any issues found. File in the food safety management folder.
+    required_objects: [food_safety_checklist, pen, temperature_log]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []

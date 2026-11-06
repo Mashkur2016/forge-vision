@@ -1,0 +1,107 @@
+id: data_warehouse_etl_process_v1
+name: Data Warehouse ETL Process
+version: "1.0"
+category: Business Intelligence
+department: Data Engineering
+estimated_duration_seconds: 4500
+required_ppe: []
+steps:
+  - id: 1
+    name: extract_source_data
+    description: Extract data from source systems (CRM, ERP, operational databases) using configured connectors. Validate connection parameters and extract full or incremental datasets based on schedule.
+    required_objects: [etl_tool, source_system_credentials, connection_config]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: validate_extracted_data
+    description: Validate extracted data for completeness, correct row counts, expected fields, and data types. Check for any obvious anomalies or missing values that would indicate extraction failure.
+    required_objects: [data_validation_tool, extraction_manifest, quality_checklist]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: stage_data_in_landing_zone
+    description: Load validated extracted data into the staging/landing zone of the data warehouse. Store raw data in its original format to preserve data lineage.
+    required_objects: [data_warehouse_system, staging_database, load_scripts]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: apply_data_transformations
+    description: Apply business logic, data transformations, calculations, and aggregations. Create derived fields, apply business rules, handle nulls, and standardize formats.
+    required_objects: [transformation_engine, sql_scripts, business_rules_documentation]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: implement_data_quality_checks
+    description: Run data quality validations including uniqueness checks, referential integrity, range validations, and domain value checks. Flag and log any quality issues.
+    required_objects: [data_quality_tool, quality_rules_engine, error_logging_system]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: load_data_to_warehouse_tables
+    description: Load transformed and validated data into fact and dimension tables in the data warehouse. Update indexes and statistics for query performance optimization.
+    required_objects: [data_warehouse_system, load_scripts, performance_monitoring_tools]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: execute_aggregation_calculations
+    description: Execute aggregations, summary tables, and materialized views used by reporting tools. Ensure all dependent queries have access to the latest aggregated data.
+    required_objects: [sql_engine, aggregation_scripts, scheduling_system]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: validate_warehouse_data
+    description: Validate loaded warehouse data against source systems using row count reconciliation, sample value verification, and business logic validation.
+    required_objects: [reconciliation_tool, source_extracts, validation_queries]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: refresh_reporting_views
+    description: Refresh all reporting views, cubes, and reporting layer tables. Notify BI tools to refresh cached data and metadata. Verify dashboards and reports reflect latest data.
+    required_objects: [bi_tool, reporting_views, cache_management_system]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: monitor_etl_job_execution
+    description: Monitor ETL job execution for completion, performance, and any warnings or errors. Check data lineage and document execution in ETL logs.
+    required_objects: [scheduling_system, monitoring_tool, etl_logs]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

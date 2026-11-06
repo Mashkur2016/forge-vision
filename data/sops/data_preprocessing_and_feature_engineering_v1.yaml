@@ -1,0 +1,127 @@
+id: data_preprocessing_and_feature_engineering_v1
+name: Data Preprocessing and Feature Engineering
+version: "1.0"
+category: Data Science and AI
+department: Data Science
+estimated_duration_seconds: 4800
+required_ppe: []
+steps:
+  - id: 1
+    name: load_and_explore_raw_data
+    description: Load raw data from source systems. Explore data structure, types, size, and quality. Create initial data profiling report documenting key characteristics.
+    required_objects: [data_loading_tools, data_repository, profiling_tool]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: handle_missing_and_null_values
+    description: Analyze missing value patterns and mechanisms (MCAR, MAR, MNAR). Choose appropriate imputation strategies (deletion, mean/median, forward fill, KNN, etc.) and document rationale.
+    required_objects: [missing_value_analysis_tool, imputation_scripts, imputation_policy]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: detect_and_handle_outliers
+    description: Detect outliers using statistical methods (IQR, Z-score, isolation forest). Document outlier handling strategy (removal, capping, transformation) and justify decisions.
+    required_objects: [outlier_detection_tool, visualization_tools, outlier_policy]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: remove_duplicates_and_deduplicate
+    description: Identify and remove duplicate records. Apply fuzzy matching for near-duplicates. Document deduplication logic and maintain audit trail of removals.
+    required_objects: [deduplication_tool, matching_algorithm, audit_logging]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: encode_categorical_variables
+    description: Identify categorical variables and choose encoding strategy (one-hot, label encoding, ordinal, target encoding). Fit encoders on training data only.
+    required_objects: [encoding_scripts, categorical_analysis, encoding_pipeline]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: handle_temporal_and_date_features
+    description: Extract useful temporal features from date/time fields (year, month, day of week, hour, is_weekend, etc.). Handle time zones and daylight saving time appropriately.
+    required_objects: [date_parsing_tools, temporal_feature_scripts]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: create_domain_specific_features
+    description: Create domain-specific features based on business knowledge and problem context. Combine raw features to create interactions and polynomial features where appropriate.
+    required_objects: [feature_engineering_scripts, domain_documentation, feature_definitions]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: handle_class_imbalance
+    description: If target is imbalanced, apply appropriate balancing technique (oversampling, undersampling, SMOTE, class weights). Document strategy and rationale.
+    required_objects: [imbalance_analysis_tool, balancing_scripts, imbalance_policy]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: standardize_and_scale_features
+    description: Apply feature scaling appropriate for algorithms to be used (standardization for linear models, normalization for neural networks). Fit scalers on training data only.
+    required_objects: [scaling_scripts, preprocessing_pipeline]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: select_most_important_features
+    description: Apply feature selection methods (univariate selection, recursive elimination, model-based selection) to identify most important features. Balance model complexity with predictive power.
+    required_objects: [feature_selection_tool, importance_analysis]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 11
+    name: document_preprocessing_pipeline
+    description: Document complete preprocessing pipeline including all transformations, parameter values, and dependencies. Create reproducible pipeline code for deployment.
+    required_objects: [pipeline_documentation, reproducible_code, pipeline_definition]
+    required_pose: null
+    must_follow: [10]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 12
+    name: save_preprocessed_data_and_artifacts
+    description: Save preprocessed data and all preprocessing artifacts (encoders, scalers, feature lists). Version artifacts for reproducibility and model deployment.
+    required_objects: [data_storage, artifact_versioning, documentation]
+    required_pose: null
+    must_follow: [11]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

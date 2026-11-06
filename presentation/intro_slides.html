@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE-Vision — Introduction</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --gold:#FFCC00; --gold-dark:#E6B800; --ink:#0B1220; --muted:#9fb0c7; --line:#23314b; --white:#F7FAFF; }
+  .reveal{ font-family:'Inter',sans-serif; color:var(--white); }
+  .reveal .slides{ text-align:left; }
+  .reveal-viewport{ background:radial-gradient(1200px 700px at 70% -10%, #16223b 0%, var(--ink) 55%, #070b14 100%); }
+  .reveal h1,.reveal h2,.reveal h3{ font-family:'Anton',sans-serif; font-weight:400; letter-spacing:.5px; text-transform:uppercase; color:var(--white); line-height:1.04; margin:0 0 .35em; }
+  .reveal h1{ font-size:2.6em; } .reveal h2{ font-size:1.65em; } .reveal h3{ font-size:1.0em; color:var(--gold); letter-spacing:2px; }
+  .reveal p,.reveal li{ font-size:.78em; line-height:1.5; color:#dce6f5; }
+  .gold{ color:var(--gold); }
+  .kicker{ font-family:'Anton'; letter-spacing:4px; text-transform:uppercase; color:var(--gold); font-size:.7em; margin-bottom:.6em; }
+  .rule{ height:4px; width:120px; background:var(--gold); border:0; margin:.2em 0 .9em; }
+  .sub{ color:var(--muted); font-size:.72em; }
+  .reveal ul{ margin-left:1.1em; } .reveal li{ margin:.42em 0; } .reveal li::marker{ color:var(--gold); }
+  .grid{ display:grid; gap:16px; } .cards3{ grid-template-columns:repeat(3,1fr); } .cards5{ grid-template-columns:repeat(5,1fr); }
+  .card{ background:linear-gradient(180deg,#15223b,#0e1729); border:1px solid var(--line); border-radius:14px; padding:16px; }
+  .card .n{ font-family:'Anton'; color:var(--gold); font-size:.95em; letter-spacing:1px; }
+  .card p{ font-size:.6em; margin:.4em 0 0; color:#c7d3e6; }
+  .layer{ display:flex; align-items:center; gap:16px; background:#101c33; border:1px solid var(--line); border-left:5px solid var(--gold); border-radius:10px; padding:11px 16px; margin:.45em 0; }
+  .layer .lh{ font-family:'Anton'; color:#fff; font-size:.78em; min-width:160px; letter-spacing:1px; }
+  .layer .ld{ font-size:.6em; color:#bccbe2; }
+  .flow{ display:flex; align-items:stretch; gap:10px; flex-wrap:wrap; margin-top:.4em; }
+  .node{ background:#101c33; border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:.62em; flex:1 1 0; min-width:120px; }
+  .node b{ color:var(--gold); font-family:'Anton'; font-weight:400; letter-spacing:1px; display:block; margin-bottom:4px; font-size:1.15em; }
+  .arrow{ align-self:center; color:var(--gold); font-size:1.2em; }
+  .stack{ display:flex; flex-wrap:wrap; gap:8px; margin-top:.5em; }
+  .chip{ font-size:.56em; background:#0e1729; border:1px solid var(--line); color:#cdd9ec; padding:5px 11px; border-radius:999px; }
+  .chip.g{ border-color:var(--gold-dark); color:var(--gold); }
+  .footer{ position:absolute; bottom:-34px; left:0; font-size:.5em; color:var(--muted); letter-spacing:1px; }
+  .center{ text-align:center; } .big{ font-size:1.0em; }
+  .reveal .controls{ color:var(--gold); } .reveal .progress{ color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+  <!-- 1 · TITLE -->
+  <section data-background-gradient="radial-gradient(1100px 600px at 75% 0%, #1b2c4d, #0a0f1c 60%, #05080f)">
+    <div style="margin-top:.3em">
+      <div class="kicker">Applied Research Artefact</div>
+      <h1>Forge&#8209;Vision</h1>
+      <hr class="rule">
+      <p class="big">A Hybrid <span class="gold">Computer Vision</span> &amp; <span class="gold">Generative AI</span> System for<br>Real-Time and Simulation-Based Employee Training</p>
+      <p class="sub" style="margin-top:1.4em">Presented by <span class="gold">Mashkur Alam</span> &nbsp;·&nbsp; Prof. Dr. Karim Mohammed Rezaul</p>
+    </div>
+    <div class="footer">FORGE-VISION · INTRODUCTION</div>
+  </section>
+
+  <!-- 2 · WHAT IT IS -->
+  <section>
+    <div class="kicker">What it is</div>
+    <h2>A real-time AI training coach<br>that never blinks</h2>
+    <hr class="rule">
+    <ul>
+      <li>Watches a worker perform a task through an <b>ordinary camera</b>.</li>
+      <li>Compares what they do against the approved <b>Standard Operating Procedure (SOP)</b>.</li>
+      <li>The moment it detects a <b>deviation</b>, it generates <b>instant, plain-language guidance</b> — what went wrong, and why.</li>
+    </ul>
+    <div class="footer">FORGE-VISION · INTRODUCTION</div>
+  </section>
+
+  <!-- 3 · THE PROBLEM -->
+  <section>
+    <div class="kicker">The problem</div>
+    <h2>Error happens <span class="gold">during</span> execution —<br>feedback arrives too late</h2>
+    <hr class="rule">
+    <ul>
+      <li>Much workplace error is <b>procedural deviation at the moment of execution</b>, not lack of knowledge.</li>
+      <li>Traditional training is <b>retrospective</b>: feedback comes hours or days later, when its teaching value has faded.</li>
+      <li>FORGE-Vision closes the gap — feedback <b>in the moment</b>, specific to the exact step.</li>
+    </ul>
+    <div class="footer">FORGE-VISION · INTRODUCTION</div>
+  </section>
+
+  <!-- 4 · HOW IT WORKS -->
+  <section>
+    <div class="kicker">How it works</div>
+    <h2>A four-layer real-time pipeline</h2>
+    <hr class="rule">
+    <div class="layer"><div class="lh">1 · Perception</div><div class="ld">OpenCV frame processing · MediaPipe body pose · YOLOv8 tool &amp; PPE detection</div></div>
+    <div class="layer"><div class="lh">2 · Recognition</div><div class="ld">MobileNetV3 + LSTM action model — ~85.8% accuracy · 62 ms per frame</div></div>
+    <div class="layer"><div class="lh">3 · Intelligence</div><div class="ld">SOP deviation detector → Large Language Model writes the correction</div></div>
+    <div class="layer"><div class="lh">4 · Guidance</div><div class="ld">Explainable feedback delivered to the worker in &lt; 2 seconds</div></div>
+    <div class="footer">FORGE-VISION · INTRODUCTION</div>
+  </section>
+
+  <!-- 5 · ARCHITECTURE -->
+  <section>
+    <div class="kicker">System architecture</div>
+    <h2>One secure entry · cloud-native</h2>
+    <hr class="rule">
+    <div class="flow">
+      <div class="node"><b>Browser</b>Worker / admin over HTTPS</div>
+      <div class="arrow">→</div>
+      <div class="node"><b>Caddy</b>Reverse proxy · TLS · routing</div>
+      <div class="arrow">→</div>
+      <div class="node"><b>FastAPI</b>REST API + live WebSocket (the brain)</div>
+      <div class="arrow">→</div>
+      <div class="node"><b>PostgreSQL</b>All records &amp; analytics</div>
+    </div>
+    <p class="sub" style="margin-top:1em">Interface in <span class="gold">Streamlit</span> · containerised with <span class="gold">Docker</span> · running free in the cloud on a <span class="gold">Hugging Face Space + Supabase</span>.</p>
+    <div class="footer">FORGE-VISION · INTRODUCTION</div>
+  </section>
+
+  <!-- 6 · COMPONENTS -->
+  <section>
+    <div class="kicker">Components used</div>
+    <h2>The technology stack</h2>
+    <hr class="rule">
+    <div class="grid cards5">
+      <div class="card"><div class="n">Frontend</div><p>Streamlit (+ React option)</p></div>
+      <div class="card"><div class="n">Backend</div><p>FastAPI · async SQLAlchemy · Pydantic</p></div>
+      <div class="card"><div class="n">Database</div><p>PostgreSQL</p></div>
+      <div class="card"><div class="n">Computer Vision</div><p>OpenCV · MediaPipe · YOLOv8 · PyTorch</p></div>
+      <div class="card"><div class="n">LLM (pluggable)</div><p>Groq · OpenAI · Anthropic · Gemini · Ollama</p></div>
+    </div>
+    <div class="stack">
+      <span class="chip g">Real-time WebSocket camera</span><span class="chip g">Explainable feedback</span><span class="chip">GDPR — frames never stored</span><span class="chip">Docker · Caddy</span>
+    </div>
+    <div class="footer">FORGE-VISION · INTRODUCTION</div>
+  </section>
+
+  <!-- 7 · LET'S SEE IT LIVE -->
+  <section class="center" data-background-gradient="radial-gradient(1100px 600px at 50% 0%, #1b2c4d, #0a0f1c 60%, #05080f)">
+    <div class="kicker" style="text-align:center">Demonstration</div>
+    <h2 style="text-align:center">Let's see it live</h2>
+    <hr class="rule" style="margin-left:auto;margin-right:auto">
+    <p style="text-align:center;max-width:75%;margin:0 auto;">This is the real, deployed system — running free in the cloud. From login to logout, here is FORGE-Vision in action.</p>
+  </section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash:true, controls:true, progress:true, slideNumber:'c/t', transition:'slide', backgroundTransition:'fade', width:1280, height:720, margin:0.06 });
+</script>
+</body>
+</html>

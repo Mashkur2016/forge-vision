@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE-Vision — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #FFCC00;
+    --gold-dark: #E6B800;
+    --white: #FEFFFF;
+    --black: #1a1a1a;
+    --grey: #6b6b6b;
+    --light: #f5f5f5;
+    --error: #d32f2f;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left {
+    background: var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .left::before {
+    content: '';
+    position: absolute;
+    bottom: -120px; right: -120px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.06);
+  }
+
+  .left::after {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+  }
+
+  .left-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .logo-wrap {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 2rem;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 3.6rem;
+    letter-spacing: 0.04em;
+    color: var(--black);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .brand-dash {
+    display: block;
+    width: 60px;
+    height: 5px;
+    background: var(--black);
+    margin: 1.2rem auto;
+    border-radius: 3px;
+  }
+
+  .brand-tagline {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+    color: var(--black);
+    opacity: 0.75;
+    text-transform: uppercase;
+  }
+
+  .left-footer {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.78rem;
+    color: rgba(0,0,0,0.45);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .right {
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 4rem;
+    position: relative;
+  }
+
+  .form-wrap {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .form-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .form-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.4rem;
+    color: var(--black);
+    letter-spacing: 0.03em;
+  }
+
+  .form-rule {
+    display: block;
+    width: 48px;
+    height: 4px;
+    background: var(--gold);
+    margin: 0.9rem 0 0.7rem;
+    border-radius: 2px;
+  }
+
+  .form-sub {
+    font-size: 0.95rem;
+    color: var(--grey);
+    font-weight: 300;
+  }
+
+  .field {
+    margin-bottom: 1.4rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 0.5rem;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--grey);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.6rem;
+    border: 2px solid #e8e8e8;
+    border-radius: 8px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.97rem;
+    color: var(--black);
+    background: var(--white);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  input:focus {
+    border-color: var(--gold);
+  }
+
+  input.error-field {
+    border-color: var(--error);
+  }
+
+  .toggle-pw {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: var(--grey);
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .toggle-pw:hover { color: var(--black); }
+
+  .field-error {
+    color: var(--error);
+    font-size: 0.78rem;
+    margin-top: 0.3rem;
+    display: none;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.6rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--grey);
+    cursor: pointer;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+  }
+
+  .checkbox-label input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--gold);
+  }
+
+  .forgot {
+    font-size: 0.88rem;
+    color: var(--black);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .forgot:hover { border-color: transparent; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Anton', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-submit:hover { background: var(--gold-dark); }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+  .spinner {
+    width: 18px; height: 18px;
+    border: 3px solid rgba(0,0,0,0.2);
+    border-top-color: var(--black);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .divider {
+    text-align: center;
+    margin: 1.6rem 0 1.2rem;
+    position: relative;
+    font-size: 0.78rem;
+    color: #ccc;
+    letter-spacing: 0.08em;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: #e8e8e8;
+  }
+  .divider::before { left: 0; }
+  .divider::after { right: 0; }
+
+  .register-link {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--grey);
+  }
+  .register-link a {
+    color: var(--black);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 1px;
+  }
+
+  .gdpr {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #bbb;
+    margin-top: 2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .global-error {
+    background: #fff5f5;
+    border: 1.5px solid #f5c2c2;
+    color: var(--error);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.88rem;
+    margin-bottom: 1.2rem;
+    display: none;
+  }
+
+  /* entrance animation */
+  .right { animation: slideIn 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+  @keyframes slideIn {
+    from { opacity:0; transform: translateX(30px); }
+    to   { opacity:1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <div class="left-content">
+      <div class="logo-wrap">
+        <img src="logo1.jpg" alt="FORGE-Vision">
+      </div>
+      <div class="brand-name">FORGE<br>VISION</div>
+      <span class="brand-dash"></span>
+      <div class="brand-tagline">AI Employee Training System</div>
+    </div>
+    <div class="left-footer">Coventry University · DBA Research Project</div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right">
+    <div class="form-wrap">
+      <div class="form-header">
+        <div class="form-title">SIGN IN</div>
+        <span class="form-rule"></span>
+        <div class="form-sub">Welcome back. Enter your credentials to continue.</div>
+      </div>
+
+      <div class="global-error" id="globalError"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉</span>
+            <input type="email" id="email" placeholder="you@company.com" autocomplete="email">
+          </div>
+          <div class="field-error" id="emailErr">Please enter a valid email.</div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" class="toggle-pw" onclick="togglePw()">👁</button>
+          </div>
+          <div class="field-error" id="pwErr">Password is required.</div>
+        </div>
+
+        <div class="row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember"> Remember me
+          </label>
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <div class="spinner" id="spinner"></div>
+          <span id="btnText">SIGN IN →</span>
+        </button>
+      </form>
+
+      <div class="divider">OR</div>
+      <div class="register-link">Don't have an account? <a href="#">Register here</a></div>
+      <div class="gdpr">🔒 Secured · GDPR Compliant · AES-256 Encrypted</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePw() {
+  const p = document.getElementById('password');
+  p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email');
+  const pw    = document.getElementById('password');
+  const emailErr = document.getElementById('emailErr');
+  const pwErr    = document.getElementById('pwErr');
+  const globalErr = document.getElementById('globalError');
+  let valid = true;
+
+  emailErr.style.display = 'none'; email.classList.remove('error-field');
+  pwErr.style.display    = 'none'; pw.classList.remove('error-field');
+  globalErr.style.display = 'none';
+
+  if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    emailErr.style.display = 'block'; email.classList.add('error-field'); valid = false;
+  }
+  if (!pw.value) {
+    pwErr.style.display = 'block'; pw.classList.add('error-field'); valid = false;
+  }
+  if (!valid) return;
+
+  const btn = document.getElementById('submitBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Signing in…';
+
+  setTimeout(() => {
+    btn.disabled = false; spinner.style.display = 'none'; btnText.textContent = 'SIGN IN →';
+    globalErr.textContent = 'Invalid email or password. Please try again.';
+    globalErr.style.display = 'block';
+  }, 1800);
+});
+</script>
+</body>
+</html>

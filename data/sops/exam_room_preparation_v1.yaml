@@ -1,0 +1,87 @@
+id: exam_room_preparation_v1
+name: Examination Room Preparation
+version: "1.0"
+category: Assessment Administration
+department: Registry and Examinations
+estimated_duration_seconds: 1800
+required_ppe: []
+steps:
+  - id: 1
+    name: verify_room_allocation
+    description: Check the examination timetable to confirm the correct room, date, time, and module code. Cross-reference against the room capacity and candidate count.
+    required_objects: [exam_timetable, attendance_register]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: arrange_desks_in_exam_layout
+    description: Arrange desks in single rows with minimum 1.2 metres between candidates. Place candidate number cards in the correct positions.
+    required_objects: [desk, chair, candidate_number_card]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: place_stationery_on_desks
+    description: Place one answer booklet, one rough paper sheet, and a pen on each desk. Ensure no unauthorised materials are on or inside the desks.
+    required_objects: [answer_booklet, pen, rough_paper]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: set_clock_and_time_display
+    description: Set the room clock to the correct time. Write the start and end times of the examination on the whiteboard at the front of the room.
+    required_objects: [clock, whiteboard, whiteboard_marker]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: distribute_exam_papers_face_down
+    description: Place one exam paper face-down on each desk. Do not allow candidates to turn papers over until the invigilator gives the instruction to begin.
+    required_objects: [exam_paper]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 180
+    safety_critical: true
+    required_ppe: []
+
+  - id: 6
+    name: post_examination_notices
+    description: Affix the No Entry sign to the outside of the door and the mobile phones prohibited notice at the front of the room.
+    required_objects: [no_entry_sign, mobile_phone_notice]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: brief_invigilators
+    description: Confirm roles with all invigilators. Confirm emergency evacuation procedure and location of the nearest fire exit before candidates enter.
+    required_objects: [invigilation_briefing_sheet]
+    required_pose: standing
+    must_follow: [6]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: admit_candidates_and_check_id
+    description: Admit candidates one at a time. Check photographic ID against the candidate list. Direct each candidate to their assigned seat and mark the register.
+    required_objects: [student_id_card, attendance_register, pen]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 360
+    safety_critical: true
+    required_ppe: []

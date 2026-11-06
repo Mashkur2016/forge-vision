@@ -1,0 +1,71 @@
+# SSL certificates — generated locally by mkcert, never committed
+ssl/*.pem
+ssl/*.key
+ssl/*.crt
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Models / data
+models/
+data/real/
+# ~20 GB generated videos — regenerate with `python -m src.simulation.dataset_builder`
+data/synthetic/
+*.pt
+*.pth
+*.onnx
+.env.production
+.env.*.local
+
+# Local databases, logs, test artefacts, backups
+*.db
+*.sqlite3
+logs_*.txt
+*.log
+*.bak
+.coverage
+.pytest_cache/
+
+# Source papers (copyright, ~1 GB) and local-only folders
+Literature Review/
+error/
+.claude/
+
+# Presentation media + tooling (large binaries; keep the scripts/markdown)
+presentation/node_modules/
+presentation/segments/
+presentation/bgmusic/
+presentation/*.mp4
+presentation/*.mp3
+presentation/*.wav
+
+# Assembled Hugging Face Space repo (own .git; may hold a tokenised remote)
+# Rebuild it with scripts/build_hf_space.py
+hf_space_build/
+
+# Experiments
+experiments/mlruns/
+experiments/continual_runs/
+experiments/continual_ckpts/
+experiments/coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+frontend/dist/

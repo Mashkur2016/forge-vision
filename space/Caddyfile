@@ -1,0 +1,28 @@
+# Single public entry for the HF Space (port 7860).
+# Routes API + WebSocket traffic to FastAPI (:8000) and everything else to
+# Streamlit (:8501). This is what lets the browser reach the live-camera
+# WebSocket endpoint, since HF Spaces expose only one port.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+:7860 {
+	# FastAPI: REST API + the live-camera WebSocket (/api/v1/ws/live)
+	@backend path /api/* /ws/* /health /docs /redoc /openapi.json
+	handle @backend {
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	# Everything else → Streamlit (its own WebSocket at /_stcore/stream included).
+	# Caddy reverse_proxy upgrades WebSockets automatically.
+	# flush_interval -1 disables response buffering so Streamlit's long-lived
+	# server-sent-events stream isn't held/dropped by the proxy (the cause of the
+	# "SSE connection timed out" console messages and part of the navigation lag).
+	handle {
+		reverse_proxy 127.0.0.1:8501 {
+			flush_interval -1
+		}
+	}
+}

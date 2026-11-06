@@ -1,0 +1,87 @@
+id: fire_evacuation_marshal_v1
+name: Fire Evacuation Marshal Procedure
+version: "1.0"
+category: Emergency Procedures
+department: All Departments
+estimated_duration_seconds: 705
+required_ppe: [hi_vis_vest]
+steps:
+  - id: 1
+    name: don_hi_vis_vest
+    description: Upon hearing the fire alarm, immediately put on your hi-vis marshal vest to identify yourself as a fire marshal to staff, students, and visitors.
+    required_objects: [hi_vis_vest]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 15
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 2
+    name: direct_occupants_to_nearest_exit
+    description: Move to your designated zone and direct all occupants to the nearest safe fire exit. Use clear verbal instructions and arm signals. Do not use the lift.
+    required_objects: [fire_exit_sign]
+    required_pose: standing
+    must_follow: [1]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 3
+    name: sweep_rooms_and_toilets
+    description: Systematically check all rooms, toilets, and enclosed spaces in your zone. Call out to ensure no one remains. Do not re-enter once an area is cleared.
+    required_objects: [hi_vis_vest, fire_door]
+    required_pose: walking
+    must_follow: [2]
+    time_limit_seconds: 180
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 4
+    name: assist_persons_with_disabilities
+    description: Escort any persons with disabilities to the nearest refuge point. Ensure they are handed over to a colleague or emergency services for evacuation assistance.
+    required_objects: [refuge_point_sign]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 5
+    name: close_fire_doors_on_exit
+    description: Close but do not lock all fire doors as you leave each area. This contains the spread of fire and smoke and buys critical time for evacuation.
+    required_objects: [fire_door]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 6
+    name: proceed_to_assembly_point
+    description: Lead remaining occupants to the designated assembly point. Ensure everyone stays together and does not re-enter the building under any circumstances.
+    required_objects: [assembly_point_sign]
+    required_pose: walking
+    must_follow: [5]
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 7
+    name: report_to_incident_controller
+    description: Report to the incident controller or senior fire marshal at the assembly point. State whether your zone is fully evacuated or if anyone is unaccounted for.
+    required_objects: [hi_vis_vest]
+    required_pose: standing
+    must_follow: [6]
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: [hi_vis_vest]
+
+  - id: 8
+    name: complete_fire_marshal_log
+    description: After the all-clear, complete the fire marshal evacuation log. Record time of alarm, evacuation duration, headcount, and any incidents or near-misses.
+    required_objects: [evacuation_log, pen]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []

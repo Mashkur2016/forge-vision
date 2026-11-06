@@ -1,0 +1,117 @@
+services:
+  # ── PostgreSQL Database ──────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: forgevision_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-forgevision}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-forgevision}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-forgevision}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── FastAPI Backend ──────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: forgevision_api
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-forgevision}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-forgevision}
+      ENVIRONMENT: development
+      PYTHONPATH: /app
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-dev-secret-change-in-production}
+      ALLOWED_HOSTS: localhost,127.0.0.1
+      LLM_PROVIDER: ${LLM_PROVIDER:-groq}
+      LLM_MODEL: ${LLM_MODEL:-llama-3.1-8b-instant}
+    ports:
+      # Host port 8010 (not 8000) to avoid clashing with other local projects.
+      # Internal port stays 8000 — the UI and frontend reach it at http://api:8000.
+      - "8010:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./models:/app/models:ro
+      - ./experiments:/app/experiments   # continual-learning run records + checkpoints
+      - ./ssl:/app/ssl:ro
+    command: >
+      sh -c "alembic upgrade head && uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # ── Streamlit UI ─────────────────────────────────────────
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: forgevision_ui
+    environment:
+      API_BASE_URL: http://api:8000
+      PYTHONPATH: /app
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      SETTINGS_ENCRYPTION_KEY: ${SETTINGS_ENCRYPTION_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-dev-secret-change-in-production}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-forgevision}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-forgevision}
+    ports:
+      - "8501:8501"
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./models:/app/models:ro          # ActionRecognizer checkpoint for live training
+      - ./ssl:/app/ssl:ro
+      - ./.streamlit:/app/.streamlit:ro
+    command: >
+      streamlit run src/ui/app.py
+      --server.port 8501
+      --server.address 0.0.0.0
+      --server.headless true
+      --server.sslCertFile /app/ssl/localhost.pem
+      --server.sslKeyFile /app/ssl/localhost-key.pem
+    restart: unless-stopped
+
+  # ── React Frontend ───────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: forgevision_frontend
+    environment:
+      # Server-side only (no VITE_ prefix) — used by Vite proxy, never sent to browser
+      API_PROXY_TARGET: http://api:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ./frontend/src:/app/frontend/src
+      - ./ssl:/app/ssl:ro
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

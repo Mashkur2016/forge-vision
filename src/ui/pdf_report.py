@@ -1,0 +1,128 @@
+"""
+PDF report generation for the Report Generator page.
+
+Builds a printable session report (KPIs + per-worker deviation table) from the
+aggregate report data using fpdf2 (pure-Python, no system dependencies). Returns
+PDF bytes suitable for a Streamlit download button.
+"""
+from __future__ import annotations
+
+from typing import Any
+
+GOLD = (230, 184, 0)
+DARK = (26, 26, 26)
+GREY = (120, 120, 120)
+
+
+def _clean(text: str) -> str:
+    """fpdf2's core fonts are Latin-1; drop characters they cannot encode."""
+    return str(text).encode("latin-1", "replace").decode("latin-1")
+
+
+def build_report_pdf(report: dict[str, Any], start_date: str, end_date: str) -> bytes:
+    """Render the aggregate report into a PDF and return its bytes."""
+    from fpdf import FPDF
+
+    pdf = FPDF(orientation="P", unit="mm", format="A4")
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+
+    # ── Title ──────────────────────────────────────────────────────────────
+    pdf.set_font("Helvetica", "B", 18)
+    pdf.set_text_color(*DARK)
+    pdf.cell(0, 12, _clean("FORGE-Vision - Session Report"), ln=True)
+    pdf.set_draw_color(*GOLD)
+    pdf.set_line_width(0.8)
+    pdf.line(pdf.l_margin, pdf.get_y(), pdf.w - pdf.r_margin, pdf.get_y())
+    pdf.ln(4)
+
+    pdf.set_font("Helvetica", "", 10)
+    pdf.set_text_color(*GREY)
+    pdf.cell(0, 6, _clean(f"Reporting period: {start_date} to {end_date}"), ln=True)
+    pdf.ln(4)
+
+    # ── KPI section ────────────────────────────────────────────────────────
+    pdf.set_font("Helvetica", "B", 13)
+    pdf.set_text_color(*DARK)
+    pdf.cell(0, 8, "Key Performance Indicators", ln=True)
+    pdf.set_font("Helvetica", "", 11)
+
+    top_step = report.get("most_deviated_step") or {}
+    kpis = [
+        ("Total sessions", str(report.get("total_sessions", 0))),
+        ("Average accuracy", f"{report.get('avg_accuracy_pct', 0)}%"),
+        ("Total deviations", str(report.get("total_deviations", 0))),
+        ("High-severity deviations", str(report.get("total_high_severity", 0))),
+        ("Top performer", str(report.get("top_worker") or "-")),
+        ("Most deviated step",
+         f"{top_step.get('step', '-')} ({top_step.get('count', 0)} events)"),
+    ]
+    for label, value in kpis:
+        pdf.set_font("Helvetica", "", 11)
+        pdf.cell(70, 7, _clean(f"  {label}"), border=0)
+        pdf.set_font("Helvetica", "B", 11)
+        pdf.cell(0, 7, _clean(value), ln=True)
+    pdf.ln(4)
+
+    # ── Per-worker table ───────────────────────────────────────────────────
+    workers = report.get("deviations_by_worker", [])
+    if workers:
+        pdf.set_font("Helvetica", "B", 13)
+        pdf.cell(0, 8, "Deviations by Worker", ln=True)
+
+        pdf.set_fill_color(*GOLD)
+        pdf.set_text_color(*DARK)
+        pdf.set_font("Helvetica", "B", 10)
+        pdf.cell(90, 8, "Worker", border=1, fill=True)
+        pdf.cell(45, 8, "Sessions", border=1, fill=True, align="C")
+        pdf.cell(45, 8, "Deviations", border=1, fill=True, align="C", ln=True)
+
+        pdf.set_font("Helvetica", "", 10)
+        pdf.set_text_color(*DARK)
+        for d in workers:
+            name = d.get("username") or f"Worker {d.get('worker_id', '?')}"
+            pdf.cell(90, 7, _clean(str(name)), border=1)
+            pdf.cell(45, 7, str(d.get("sessions", 0)), border=1, align="C")
+            pdf.cell(45, 7, str(d.get("deviations", 0)), border=1, align="C", ln=True)
+    pdf.ln(6)
+
+    # ── Deviation breakdown (class x severity) ───────────────────────────────
+    breakdown = report.get("deviation_breakdown", [])
+    sev = report.get("severity_totals", {}) or {}
+    if breakdown:
+        pdf.set_font("Helvetica", "B", 13)
+        pdf.set_text_color(*DARK)
+        pdf.cell(0, 8, "Deviation Breakdown (class x severity)", ln=True)
+
+        pdf.set_font("Helvetica", "", 10)
+        pdf.set_text_color(*GREY)
+        pdf.cell(0, 6, _clean(
+            f"  Low: {sev.get('low', 0)}    Medium: {sev.get('medium', 0)}"
+            f"    High: {sev.get('high', 0)}"
+        ), ln=True)
+
+        pdf.set_fill_color(*GOLD)
+        pdf.set_text_color(*DARK)
+        pdf.set_font("Helvetica", "B", 10)
+        pdf.cell(100, 8, "Deviation class", border=1, fill=True)
+        pdf.cell(40, 8, "Severity", border=1, fill=True, align="C")
+        pdf.cell(40, 8, "Count", border=1, fill=True, align="C", ln=True)
+
+        pdf.set_font("Helvetica", "", 10)
+        pdf.set_text_color(*DARK)
+        for b in breakdown:
+            pdf.cell(100, 7, _clean(str(b.get("deviation_class", "-"))), border=1)
+            pdf.cell(40, 7, _clean(str(b.get("severity", "-"))), border=1, align="C")
+            pdf.cell(40, 7, str(b.get("count", 0)), border=1, align="C", ln=True)
+        pdf.ln(6)
+
+    # ── Footer note ────────────────────────────────────────────────────────
+    pdf.set_font("Helvetica", "I", 8)
+    pdf.set_text_color(*GREY)
+    pdf.multi_cell(0, 5, _clean(
+        "Generated by FORGE-Vision. Figures derived from recorded training sessions. "
+        "Synthetic data is labelled as such in the source records."
+    ))
+
+    out = pdf.output()  # fpdf2 returns a bytearray
+    return bytes(out)

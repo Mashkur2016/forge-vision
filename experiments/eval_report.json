@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "checkpoint": "D:\\Data\\Coventry University\\Projects\\DBA Project\\models\\action_recognizer_best.pth",
+    "dataset_index": "D:\\Data\\Coventry University\\Projects\\DBA Project\\data\\synthetic\\dataset_index.json",
+    "num_test_clips": 120,
+    "num_classes": 5,
+    "class_names": [
+      "correct",
+      "missing_step",
+      "wrong_order",
+      "unsafe",
+      "rare_failure"
+    ],
+    "seed": 42,
+    "device": "cpu",
+    "checkpoint_epoch": 16,
+    "checkpoint_val_accuracy": 0.9388888888888889
+  },
+  "accuracy": {
+    "overall": 0.8583,
+    "top3": 1.0,
+    "correct": 103,
+    "total": 120,
+    "target": 0.8,
+    "meets_target": true
+  },
+  "macro_averages": {
+    "precision": 0.8748,
+    "recall": 0.8795,
+    "f1": 0.8747
+  },
+  "per_class": [
+    {
+      "class": "correct",
+      "precision": 0.7667,
+      "recall": 0.92,
+      "f1": 0.8364,
+      "support": 25,
+      "tp": 23,
+      "fp": 7,
+      "fn": 2
+    },
+    {
+      "class": "missing_step",
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "support": 24,
+      "tp": 18,
+      "fp": 6,
+      "fn": 6
+    },
+    {
+      "class": "wrong_order",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 20,
+      "tp": 20,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "class": "unsafe",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 18,
+      "tp": 18,
+      "fp": 0,
+      "fn": 0
+    },
+    {
+      "class": "rare_failure",
+      "precision": 0.8571,
+      "recall": 0.7273,
+      "f1": 0.7869,
+      "support": 33,
+      "tp": 24,
+      "fp": 4,
+      "fn": 9
+    }
+  ],
+  "confusion_matrix": {
+    "raw": [
+      [
+        23,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        3,
+        18,
+        0,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        20,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        18,
+        0
+      ],
+      [
+        4,
+        5,
+        0,
+        0,
+        24
+      ]
+    ],
+    "normalised": [
+      [
+        0.92,
+        0.04,
+        0.0,
+        0.0,
+        0.04
+      ],
+      [
+        0.125,
+        0.75,
+        0.0,
+        0.0,
+        0.125
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.1212,
+        0.1515,
+        0.0,
+        0.0,
+        0.7273
+      ]
+    ],
+    "class_names": [
+      "correct",
+      "missing_step",
+      "wrong_order",
+      "unsafe",
+      "rare_failure"
+    ]
+  },
+  "latency": {
+    "batch_size": 16,
+    "mean_batch_ms": 879.85,
+    "p95_batch_ms": 993.47,
+    "per_sample_mean_ms": 54.99,
+    "per_sample_p95_ms": 62.09,
+    "target_per_sample_ms": 500,
+    "meets_latency_target": true
+  },
+  "model": {
+    "param_count": 2309157,
+    "model_size_mb": 8.81,
+    "backbone": "mobilenet_v3_small",
+    "lstm_hidden_size": 256,
+    "lstm_num_layers": 2
+  },
+  "edge_deployment": {
+    "ready": true,
+    "checks": {
+      "accuracy_ok": true,
+      "latency_ok": true,
+      "param_count_ok": true
+    }
+  }
+}

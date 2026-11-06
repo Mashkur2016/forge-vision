@@ -1,0 +1,127 @@
+id: ab_test_design_and_analysis_v1
+name: A/B Test Design and Analysis
+version: "1.0"
+category: Data Analytics
+department: Analytics
+estimated_duration_seconds: 8100
+required_ppe: []
+steps:
+  - id: 1
+    name: define_test_objectives_and_hypothesis
+    description: Define clear test objectives, primary hypothesis, and success criteria. Document expected lift, confidence level, and business impact of winning variant.
+    required_objects: [test_charter, hypothesis_documentation, success_criteria]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: conduct_sample_size_power_analysis
+    description: Calculate required sample size based on baseline conversion rate, expected lift, significance level (alpha), and power (beta). Determine test duration needed.
+    required_objects: [sample_size_calculator, statistical_reference_materials]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: design_test_variants
+    description: Design control variant and test variants with specific changes. Document all differences between variants. Ensure variants are isolated and comparable.
+    required_objects: [variant_specification_template, design_review_checklist]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: establish_randomization_and_traffic_allocation
+    description: Establish randomization methodology to ensure unbiased traffic allocation. Document how traffic will be split (typically 50-50 for A/B tests) and randomization seed.
+    required_objects: [randomization_tools, traffic_allocation_documentation]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: implement_test_in_platform
+    description: Implement test variants in testing platform or application. Configure tracking, ensure proper variant serving, and conduct QA to verify correct implementation.
+    required_objects: [testing_platform, implementation_checklist, qa_testing_tools]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: launch_test_and_monitor_sanity
+    description: Launch test to users. Monitor initial results for sanity checks including proper randomization, correct variant serving, and expected traffic distribution.
+    required_objects: [monitoring_dashboard, analytics_tools, alerts_system]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: collect_test_data_during_experiment
+    description: Collect comprehensive test data throughout the test period including conversions, revenue, user engagement, and secondary metrics. Monitor for data quality issues.
+    required_objects: [analytics_platform, data_collection_system, quality_monitoring]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 3600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: analyze_test_results_and_statistical_significance
+    description: Analyze test results using pre-planned statistical methodology. Calculate conversion rates, effect sizes, confidence intervals, and p-values for all variants.
+    required_objects: [statistical_software, analysis_scripts, significance_threshold_policy]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: assess_secondary_metrics_and_side_effects
+    description: Analyze secondary metrics and potential negative side effects. Assess impact on other business metrics and customer experience dimensions.
+    required_objects: [secondary_metrics_definition, analysis_scripts]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: document_test_findings_and_conclusions
+    description: Document comprehensive test findings including methodology, results, statistical significance, business impact, and recommendations for action.
+    required_objects: [test_results_template, statistical_findings_documentation]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 11
+    name: decide_on_variant_implementation
+    description: Based on test results and business considerations, decide whether to implement winning variant, continue testing, or archive test. Document decision rationale.
+    required_objects: [decision_framework, stakeholder_communication_template]
+    required_pose: null
+    must_follow: [10]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 12
+    name: implement_winning_variant_rollout
+    description: Roll out winning variant to 100% of users. Monitor metrics post-rollout to confirm sustained improvement and absence of unexpected issues.
+    required_objects: [rollout_plan, monitoring_dashboard, rollback_procedure]
+    required_pose: null
+    must_follow: [11]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []

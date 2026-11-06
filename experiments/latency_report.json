@@ -1,0 +1,31 @@
+{
+  "phase": "Phase 3",
+  "benchmark_frames": 30,
+  "device": "cpu",
+  "results": {
+    "cv_pipeline": {
+      "mean_ms": 0.08,
+      "p95_ms": 0.1,
+      "max_ms": 0.13
+    },
+    "action_inference": {
+      "mean_ms": 67.11,
+      "p95_ms": 71.89,
+      "max_ms": 72.52,
+      "target_ms": 500.0,
+      "target_met": true
+    },
+    "end_to_end": {
+      "mean_ms": 49.18,
+      "p95_ms": 74.86,
+      "max_ms": 79.85,
+      "target_ms": 2000.0,
+      "target_met": true
+    }
+  },
+  "overall_pass": true,
+  "targets": {
+    "end_to_end_ms": 2000.0,
+    "per_component_ms": 500.0
+  }
+}

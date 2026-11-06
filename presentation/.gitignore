@@ -1,0 +1,4 @@
+# Regenerable / heavy — not source
+node_modules/
+videos/
+capture-error.png

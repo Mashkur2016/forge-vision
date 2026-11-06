@@ -1,0 +1,87 @@
+id: lab_safety_induction_v1
+name: Science Laboratory Safety Induction
+version: "1.0"
+category: Laboratory Safety
+department: Science Faculty
+estimated_duration_seconds: 780
+required_ppe: [lab_coat, safety_glasses, gloves]
+steps:
+  - id: 1
+    name: don_personal_ppe
+    description: Put on your lab coat, safety glasses, and gloves before entering the laboratory. Ensure the lab coat is fully buttoned and glasses sit correctly on your face.
+    required_objects: [lab_coat, safety_glasses, gloves]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: [lab_coat, safety_glasses, gloves]
+
+  - id: 2
+    name: check_emergency_exits
+    description: Confirm all emergency exits are unobstructed and exit signs are illuminated. Do not proceed with the session if any exit is blocked.
+    required_objects: [emergency_exit_sign]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 60
+    safety_critical: true
+    required_ppe: []
+
+  - id: 3
+    name: locate_safety_equipment
+    description: Identify and physically check the fire extinguisher, eyewash station, emergency shower, and first aid kit. Confirm each is accessible and undamaged.
+    required_objects: [fire_extinguisher, eyewash_station, first_aid_kit]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 90
+    safety_critical: true
+    required_ppe: []
+
+  - id: 4
+    name: inspect_chemical_storage
+    description: Check that all chemical containers are correctly labelled, sealed, and stored in the designated COSHH cabinet. Ensure hazardous chemicals are segregated by type.
+    required_objects: [chemical_container, coshh_cabinet, chemical_label]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: [lab_coat, safety_glasses, gloves]
+
+  - id: 5
+    name: verify_gas_and_water_valves
+    description: Check that all gas taps and water taps at each bench are in the off position. Do not turn on any supply without a specific task requirement.
+    required_objects: [gas_tap, water_tap]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 90
+    safety_critical: true
+    required_ppe: []
+
+  - id: 6
+    name: issue_ppe_to_students
+    description: Distribute lab coats, safety glasses, and gloves to all students. Confirm every student is wearing full PPE before any bench work begins.
+    required_objects: [lab_coat, safety_glasses, gloves]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 120
+    safety_critical: true
+    required_ppe: []
+
+  - id: 7
+    name: brief_emergency_procedures
+    description: Verbally brief all students on the evacuation route, assembly point, fire alarm location, and how to use the eyewash station and emergency shower.
+    required_objects: [safety_briefing_sheet]
+    required_pose: standing
+    must_follow: [6]
+    time_limit_seconds: 180
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: complete_lab_safety_checklist
+    description: Sign and date the laboratory safety checklist. Record the number of students present. File the checklist in the lab safety folder before beginning practical work.
+    required_objects: [safety_checklist, pen, lab_safety_folder]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []

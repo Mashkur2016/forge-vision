@@ -1,0 +1,23 @@
+[theme]
+primaryColor = "#FFCC00"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8FAFC"
+textColor = "#0F172A"
+font = "sans serif"
+
+[global]
+showWarningOnDirectExecution = false
+
+[server]
+headless = true
+fileWatcherType = "poll"
+
+[client]
+# Disable Streamlit's built-in multi-page sidebar — app.py manages routing
+showSidebarNavigation = false
+
+[browser]
+gatherUsageStats = false
+
+[runner]
+magicEnabled = false

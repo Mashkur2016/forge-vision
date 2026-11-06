@@ -1,0 +1,107 @@
+id: dashboard_creation_and_maintenance_v1
+name: Dashboard Creation and Maintenance
+version: "1.0"
+category: Business Intelligence
+department: Business Intelligence
+estimated_duration_seconds: 4800
+required_ppe: []
+steps:
+  - id: 1
+    name: gather_dashboard_requirements
+    description: Meet with stakeholders to understand KPIs, metrics, visualizations, and interactivity needed. Document requirements, user roles, refresh frequency, and data sources.
+    required_objects: [requirements_template, stakeholder_contact_list, meeting_notes]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: identify_required_data_sources
+    description: Identify data sources needed (data warehouse, data marts, external APIs). Verify data availability, freshness, granularity, and latency requirements.
+    required_objects: [data_catalog, source_system_documentation, data_lineage_tool]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: design_dashboard_layout
+    description: Sketch dashboard layout with wireframes. Design visual hierarchy, select chart types appropriate for each metric, plan filters and drill-down capabilities.
+    required_objects: [wireframing_tool, design_template, style_guide]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: prepare_data_queries_and_models
+    description: Prepare SQL queries or data model definitions to calculate metrics. Optimize for performance. Test queries against target data sources.
+    required_objects: [sql_editor, data_modeling_tool, performance_testing_tools]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: build_dashboard_in_bi_tool
+    description: Build dashboard in BI platform (Tableau, Power BI, Looker) using prepared queries and approved design. Create visualizations, add filters, and configure interactivity.
+    required_objects: [bi_tool, dashboard_design, query_definitions]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: configure_refresh_and_caching
+    description: Configure dashboard data refresh schedule, caching strategy, and alert thresholds. Ensure refresh doesn't impact system performance during business hours.
+    required_objects: [bi_tool, scheduling_system, performance_monitoring]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: test_dashboard_functionality
+    description: Test dashboard with real data, validate calculations, test filters and drill-downs. Verify performance under expected user load. Test on target devices/browsers.
+    required_objects: [test_data, browser_tools, load_testing_tool, acceptance_criteria]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: implement_security_and_access_controls
+    description: Configure row-level security, column-level security, and dataset permissions based on user roles. Apply data masking where sensitive information is present.
+    required_objects: [bi_tool, active_directory, access_control_matrix]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: deploy_dashboard_to_production
+    description: Publish dashboard to production environment. Configure user access, send announcements, and provide training documentation to end users.
+    required_objects: [bi_tool, user_group_list, training_documentation]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: monitor_dashboard_usage_and_performance
+    description: Monitor dashboard usage metrics, query performance, and user feedback. Schedule regular maintenance and updates based on changing business needs.
+    required_objects: [usage_analytics, performance_monitoring_tool, feedback_channel]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

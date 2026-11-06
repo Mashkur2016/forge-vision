@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE-Vision — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #1C1C1C;
+    --surface: #242424;
+    --surface2: #2E2E2E;
+    --orange:  #FF6B00;
+    --orange-dim: #cc5500;
+    --orange-glow: rgba(255,107,0,0.2);
+    --text:    #D4D4D4;
+    --text-dim: #888888;
+    --white:   #F0F0F0;
+    --error:   #FF4444;
+    --border:  #3A3A3A;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* CSS grid texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,107,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,107,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* Radial glow behind card */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(255,107,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    padding: 1rem;
+  }
+
+  /* Orange corner accents */
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.8rem 2.8rem 2.4rem;
+    animation: bootUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes bootUp {
+    from { opacity: 0; transform: translateY(16px); clip-path: inset(100% 0 0 0); }
+    to   { opacity: 1; transform: translateY(0);    clip-path: inset(0% 0 0 0); }
+  }
+
+  /* Corner brackets */
+  .card::before, .card::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: var(--orange);
+    border-style: solid;
+  }
+  .card::before {
+    top: -1px; left: -1px;
+    border-width: 2px 0 0 2px;
+    border-radius: 2px 0 0 0;
+  }
+  .card::after {
+    bottom: -1px; right: -1px;
+    border-width: 0 2px 2px 0;
+    border-radius: 0 0 2px 0;
+  }
+
+  /* Additional corner brackets via pseudo on inner div */
+  .corner-tr, .corner-bl {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: var(--orange);
+    border-style: solid;
+  }
+  .corner-tr {
+    top: -1px; right: -1px;
+    border-width: 2px 2px 0 0;
+    border-radius: 0 2px 0 0;
+  }
+  .corner-bl {
+    bottom: -1px; left: -1px;
+    border-width: 0 0 2px 2px;
+    border-radius: 0 0 0 2px;
+  }
+
+  /* Logo area */
+  .logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0;
+  }
+
+  .logo-hex {
+    width: 80px;
+    height: 80px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 0.9rem;
+    position: relative;
+  }
+
+  .logo-hex::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--orange);
+    box-shadow: 0 0 8px var(--orange);
+  }
+
+  .logo-hex img {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+    filter: brightness(0.95);
+  }
+
+  .brand-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .brand-name .dash {
+    color: var(--orange);
+    text-shadow: 0 0 10px var(--orange);
+  }
+
+  /* Orange accent bar */
+  .accent-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.7rem 0 1.8rem;
+  }
+
+  .accent-line {
+    height: 2px;
+    flex: 1;
+    background: linear-gradient(90deg, var(--orange), transparent);
+    box-shadow: 0 0 6px var(--orange-glow);
+  }
+
+  .accent-tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+
+  .accent-line.right {
+    background: linear-gradient(90deg, transparent, var(--orange));
+  }
+
+  /* Form heading */
+  .form-heading {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+
+  .form-sub {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    margin-bottom: 1.7rem;
+    letter-spacing: 0.02em;
+  }
+
+  .field { margin-bottom: 1.1rem; }
+
+  label {
+    display: block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.45rem;
+  }
+
+  .input-wrap { position: relative; }
+
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    color: #555;
+    pointer-events: none;
+    transition: color 0.2s;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100%;
+    padding: 0.78rem 1rem 0.78rem 2.4rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--surface2);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  input::placeholder { color: #444; }
+
+  input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px var(--orange-glow), 0 0 12px rgba(255,107,0,0.1);
+  }
+
+  input:focus + .input-icon,
+  .input-wrap:focus-within .input-icon {
+    color: var(--orange);
+  }
+
+  input.error-field {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(255,68,68,0.12);
+  }
+
+  .toggle-pw {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #555;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .toggle-pw:hover { color: var(--orange); }
+
+  .field-error {
+    color: var(--error);
+    font-size: 0.73rem;
+    margin-top: 0.28rem;
+    display: none;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+  }
+  .checkbox-label input {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--orange);
+  }
+
+  .forgot {
+    font-size: 0.82rem;
+    color: var(--orange);
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid rgba(255,107,0,0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.2s, text-shadow 0.2s;
+    font-family: 'Roboto', sans-serif;
+  }
+  .forgot:hover {
+    border-color: var(--orange);
+    text-shadow: 0 0 8px var(--orange-glow);
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 0.88rem;
+    background: var(--orange);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(255,107,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  }
+
+  .btn-submit:hover {
+    background: #ff7a1a;
+    box-shadow: 0 0 30px rgba(255,107,0,0.5);
+  }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2.5px solid rgba(255,255,255,0.25);
+    border-top-color: var(--white);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .global-error {
+    background: rgba(255,68,68,0.08);
+    border: 1px solid rgba(255,68,68,0.3);
+    color: var(--error);
+    border-radius: 3px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.82rem;
+    margin-bottom: 1.1rem;
+    display: none;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .bottom-row {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .register-link {
+    font-size: 0.84rem;
+    color: var(--text-dim);
+    font-family: 'Roboto', sans-serif;
+  }
+  .register-link a {
+    color: var(--orange);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,107,0,0.3);
+    padding-bottom: 1px;
+    transition: border-color 0.2s, text-shadow 0.2s;
+  }
+  .register-link a:hover {
+    border-color: var(--orange);
+    text-shadow: 0 0 8px var(--orange-glow);
+  }
+
+  .gdpr {
+    font-size: 0.7rem;
+    color: #444;
+    letter-spacing: 0.06em;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  /* Status bar at top */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .status-left {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: #4ade80;
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px #4ade80;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .status-right {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #444;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span class="status-dot"></span>
+      System Online
+    </div>
+    <div class="status-right">FORGE-Vision v2.0 · DBA Research</div>
+  </div>
+
+  <div class="card">
+    <span class="corner-tr"></span>
+    <span class="corner-bl"></span>
+
+    <div class="logo-area">
+      <div class="logo-hex">
+        <img src="logo5.jpg" alt="FORGE-Vision">
+      </div>
+      <div class="brand-name">FORGE<span class="dash">.</span>VISION</div>
+    </div>
+
+    <div class="accent-bar">
+      <div class="accent-line"></div>
+      <div class="accent-tag">Authenticate</div>
+      <div class="accent-line right"></div>
+    </div>
+
+    <div class="form-heading">Access Terminal</div>
+    <div class="form-sub">Enter credentials to initialise training session.</div>
+
+    <div class="global-error" id="globalError"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Operator Email</label>
+        <div class="input-wrap">
+          <span class="input-icon">✉</span>
+          <input type="email" id="email" placeholder="operator@facility.com" autocomplete="email">
+        </div>
+        <div class="field-error" id="emailErr">Valid email address required.</div>
+      </div>
+
+      <div class="field">
+        <label for="password">Access Code</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔑</span>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+          <button type="button" class="toggle-pw" onclick="togglePw()" title="Toggle visibility">👁</button>
+        </div>
+        <div class="field-error" id="pwErr">Access code is required.</div>
+      </div>
+
+      <div class="row">
+        <label class="checkbox-label">
+          <input type="checkbox" id="remember"> Keep session active
+        </label>
+        <a href="#" class="forgot">Reset access?</a>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <div class="spinner" id="spinner"></div>
+        <span id="btnText">INITIALISE →</span>
+      </button>
+    </form>
+
+    <div class="bottom-row">
+      <div class="register-link">No account? <a href="#">Request operator access</a></div>
+      <div class="gdpr">🔒 Secured · GDPR Compliant · AES-256 Encrypted</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function togglePw() {
+  const p = document.getElementById('password');
+  p.type = p.type === 'password' ? 'text' : 'password';
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email     = document.getElementById('email');
+  const pw        = document.getElementById('password');
+  const emailErr  = document.getElementById('emailErr');
+  const pwErr     = document.getElementById('pwErr');
+  const globalErr = document.getElementById('globalError');
+  let valid = true;
+
+  emailErr.style.display = 'none'; email.classList.remove('error-field');
+  pwErr.style.display    = 'none'; pw.classList.remove('error-field');
+  globalErr.style.display = 'none';
+
+  if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    emailErr.style.display = 'block'; email.classList.add('error-field'); valid = false;
+  }
+  if (!pw.value) {
+    pwErr.style.display = 'block'; pw.classList.add('error-field'); valid = false;
+  }
+  if (!valid) return;
+
+  const btn     = document.getElementById('submitBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Verifying…';
+
+  setTimeout(() => {
+    btn.disabled = false; spinner.style.display = 'none'; btnText.textContent = 'INITIALISE →';
+    globalErr.textContent = 'Authentication failed — invalid credentials. Please try again.';
+    globalErr.style.display = 'block';
+  }, 1800);
+});
+</script>
+</body>
+</html>

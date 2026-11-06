@@ -1,0 +1,270 @@
+PROMPT: We will start developing the application after we receive our Literature Review Approval. Please follow the below prompts.
+
+PROMPT: I need to write my Literature review atleast 10000 words. Based on our project
+
+R&D Project 3: AI-based Training for Employees - A Real-Time Skill Augmentation System 
+Domain: AI-based Training for Employees 
+Project Title 
+Project FORGE-Vision: A Hybrid Computer Vision and Generative AI System for Real-Time and Simulation-Based Employee Training 
+
+Based on our collection of Literature Review (Folder: Literature Review) and also find and DEEP analysis from the Internet most related research paper from 2020 to 2026 UpToDate, AND our System Design and planning of the Architecture.md, claude.md, GapsAnalysis.md, Enhancements.md, LiteratureReview.md, SecurityEnhancements.md.
+
+Could you please start DRAFTING a Literature Review, so that I can submit this full project for review to my senior to approve?
+
+
+Here is the Project overview from the Senior:
+
+
+Technologies 
+•	Computer Vision (OpenCV, MediaPipe, YOLO) 
+•	Deep Learning (CNN, LSTM, Transformers) 
+•	Generative AI (multimodal instruction generation) 
+•	Natural Language Processing (NLP) 
+•	Edge / Cloud Computing 
+•	Web & Mobile Applications (Streamlit, FastAPI) 
+•	Simulation Tools (Unity, Unreal Engine, or synthetic video pipelines) 
+
+Research Problem 
+Traditional training methods: 
+•	Are disconnected from real working environments 
+•	Do not provide real-time feedback 
+•	Lead to slow skill acquisition and higher error rates 
+
+Additionally: 
+•	Real-world deployment of AI systems is costly and complex 
+•	Lack of safe environments to test rare or hazardous scenarios 
+
+Research Aim 
+To design and validate a hybrid AI-based training system that: 
+•	Works in both simulation environments and real-time workplace settings 
+•	Detects errors during task execution 
+Prof. Dr. Karim Mohammed Rezaul https://www.softminister.com/karim.pdf 
+5 
+
+
+•	Provides instant, personalised AI-driven guidance 
+
+Research Objectives 
+1.	Develop a system that supports both simulated and real-world inputs 
+2.	Build computer vision models for action recognition and pose estimation 
+3.	Detect deviations from SOPs using sequence modelling 
+4.	Integrate generative AI for real-time feedback 
+	Implement both: Simulation-based testing 
+	Real-time prototype deployment 
+	
+	Evaluate system performance across both environments 
+
+Research Hypothesis 
+Employees trained using the hybrid FORGE-Vision system will: 
+•	Achieve faster skill acquisition 
+•	Reduce error rates significantly 
+•	Perform better in both simulated and real environments 
+
+Methodology: Hybrid Implementation (Simulation + Real-Time) 
+The system is developed and validated in two phases: 
+Phase A: Simulation-Based Implementation 
+Purpose: 
+•	Safe testing 
+•	Model training and validation 
+•	Scenario generation 
+
+Process: 
+Simulated Task → Video Input → AI Processing → Error Detection → AI Feedback → Evaluation 
+Phase B: Real-Time Implementation 
+Purpose: 
+•	Real-world validation 
+•	Practical deployment testing 
+
+Process: 
+Live Camera Feed → Edge Processing → AI Detection → Real-Time Feedback → User Interaction Prof. Dr. Karim Mohammed Rezaul https://www.softminister.com/karim.pdf 
+6 
+
+Recommended Simulation Design 
+Scenarios: 
+•	Correct task execution 
+•	Missing steps 
+•	Wrong sequence 
+•	Unsafe behaviour 
+•	Rare/critical failure scenarios 
+
+Benefits: 
+•	Safe experimentation 
+•	Large dataset generation 
+•	Testing edge cases 
+
+Real-Time System Design 
+Setup: 
+•	Camera / Webcam / Mobile device 
+•	Local processing (Edge device or PC) 
+
+Workflow: 
+1.	Capture live video 
+2.	Run vision models (pose, object detection) 
+3.	Detect task steps 
+4.	Identify errors 
+5.	Generate feedback instantly 
+
+Computer Vision-Based AI Training System Flowchart 
+(Used for both simulation and real-time modes) 
+Architecture Diagram
+
+
+
+System Architecture (Unified View) 
+Input Layer 
+•	Simulation video OR live camera feed 
+
+Processing Layer 
+•	Preprocessing (OpenCV) 
+•	Pose estimation (MediaPipe) 
+•	Object detection (YOLO) 
+•	Action recognition (DL models) 
+
+Intelligence Layer 
+•	Task step recognition 
+•	Error & deviation detection 
+•	Generative AI feedback engine 
+
+Output Layer 
+•	Real-time worker guidance 
+•	User interface (mobile, desktop, AR) 
+•	Analytics dashboard 
+
+Data Collection 
+Simulation Data 
+•	Synthetic or recorded videos 
+•	Labelled task scenarios 
+
+Real-Time Data 
+•	Live video streams 
+•	User interaction logs 
+•	Performance metrics 
+
+Secondary Data 
+•	SOPs 
+•	Manuals 
+•	Safety guidelines 
+
+Synthetic Data Generation 
+Purpose: 
+•	Train models without real-world dependency 
+•	Generate rare and dangerous scenarios 
+Prof. Dr. Karim Mohammed Rezaul https://www.softminister.com/karim.pdf 
+9 
+
+Methods: 
+•	Video augmentation (OpenCV) 
+•	Simulation tools (Unity, Unreal Engine) 
+•	Scenario scripting 
+
+Implementation Procedures 
+Phase 1: Simulation Development 
+•	Create simulated datasets 
+•	Train initial models 
+•	Validate system in a controlled environment 
+
+Phase 2: Model Optimisation 
+•	Improve accuracy using synthetic + real data 
+•	Fine-tune detection and feedback models 
+
+Phase 3: Real-Time Prototype 
+•	Deploy camera-based system 
+•	Implement edge processing 
+•	Enable real-time feedback 
+
+Phase 4: System Integration 
+•	Combine simulation + real-time pipeline 
+•	Connect dashboard and UI 
+
+Phase 5: Evaluation 
+	Compare: Simulation vs real-time performance 
+	Traditional vs AI-assisted training 
+	
+
+Metrics: 
+•	Accuracy 
+•	Response time 
+•	Error reduction 
+•	User improvement 
+
+Key Advantages of Hybrid Approach Feature 	Simulation 	Real-Time 
+Safety 	High 	Medium 
+Cost 	Low 	Medium 
+Realism 	Medium 	High 
+Scalability 	High 	Medium 
+Practical Validation 	Low 	High 
+
+
+Final Summary 
+This project proposes a hybrid AI training system that: 
+•	Uses simulation for development and testing 
+•	Uses real-time vision for deployment 
+•	Combines computer vision + generative AI 
+•	Provides intelligent, adaptive training 
+
+One-line for presentation 
+“A hybrid AI training system that uses simulation for learning and real-time computer vision for on-the-job guidance.”
+
+─────────────┐ │ PREPROCESSING LAYER │ │ Frame Extraction (OpenCV) │ │ Resize / Normalize │ └────────────┬───────────────┘ │ ▼ ┌────────────────────────────┐ │ COMPUTER VISION MODULE │ │ Pose (MediaPipe) │ │ Object Detection (YOLO) │ │ Action Recognition (DL) │ └────────────┬───────────────┘ │ ▼ ┌────────────────────────────┐ │ TASK ANALYSIS MODULE │ │ Step Recognition │ │ SOP Matching │ └────────────┬───────────────┘ │ ▼ ┌────────────────────────────┐ │ ERROR DETECTION MODULE │ │ Missing / Wrong / Unsafe │ │ Anomaly Detection │ └────────────┬───────────────┘ │ ▼ ┌────────────────────────────┐ │ GENERATIVE AI MODULE │ │ Instruction Generation │ │ Feedback (Text/Voice) │ └────────────┬───────────────┘ │ ▼ ┌────────────────────────────┐ │ OUTPUT LAYER │ │ UI (Mobile / Dashboard) │ │ Real-Time Guidance │ └────────────┬───────────────┘ │ ▼ ┌────────────────────────────┐ │ ANALYTICS & DATA STORAGE │ │ Logs / Performance Metrics │ └────────────────────────────┘ Prof. Dr. Karim Mohammed Rezaul https://www.softminister.com/karim.pdf 
+12 
+
+How to explain in viva (simple line): 
+“Input is captured via camera or simulation, processed using computer vision, compared with SOP, errors are detected, and generative AI provides real-time feedback.” 
+2. Expected Results (For Report) 
+A. Performance Comparison Table Metric 	Traditional Training 	AI-Based System 
+Task Completion Time 	High 	Reduced 
+Error Rate 	High 	Lower 
+Learning Speed 	Slow 	Faster 
+Real-Time Feedback 	No 	Yes 
+Safety Compliance 	Moderate 	High 
+
+
+B. Accuracy Metrics Component 	Expected Accuracy 
+Action Recognition 	80% – 90% 
+Pose Detection 	85% – 95% 
+Error Detection 	75% – 85% 
+Feedback Relevance 	High 
+
+C. Before vs After Results Parameter 	Before AI 	After AI 
+Errors per Task 	5–8 	1–3 
+Completion Time 	15 min 	9 min 
+User Confidence 	Low 	High 
+
+
+3. Charts (You can draw or include in report) 
+Chart 1: Error Reduction 
+Errors │ │ ████████ (Before) │ ███ (After) │____________________________ Before After
+
+Chart 2: Task Completion Time 
+Time (min) │ │ ███████████ (Traditional) │ ███████ (AI System) │____________________________ Traditional AI
+
+Chart 3: Accuracy Improvement 
+Accuracy % │ │ ████████████ (AI System) │ ███████ (Traditional) │____________________________ Traditional AI
+
+4. Key Results Statement (for report) 
+You can write this: 
+The proposed system demonstrated significant improvement in task efficiency and accuracy. Simulation and real-time testing demonstrated reduced error rates, faster task completion, and enhanced user confidence enabled by real-time AI-generated feedback. 
+Viva Tip (Important) 
+If the examiner asks: 
+“What proves your system works?” 
+You say: 
+•	Reduced errors 
+•	Faster task completion 
+•	Real-time feedback effectiveness 
+•	Simulation + real-time validation 
+Prof. Dr. Karim Mohammed Rezaul https://www.softminister.com/karim.pdf 
+14 
+
+Results / Evaluation section
+
+ 
+
+Figure 1: Reduction in errors after implementing AI system
+
+ 
+
+Figure 2: Comparison of task completion time
+
+ 
+
+Figure 3: Accuracy improvement using AI-based training

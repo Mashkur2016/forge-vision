@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE-Vision — DBA System Walkthrough</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#FFCC00; --gold-dark:#E6B800; --ink:#0B1220; --ink2:#111a2b;
+    --muted:#9fb0c7; --line:#23314b; --white:#F7FAFF;
+  }
+  .reveal{ font-family:'Inter',sans-serif; color:var(--white); font-weight:400; }
+  .reveal .slides{ text-align:left; }
+  .reveal .slides section{ height:100%; }
+  /* dark gradient background */
+  .reveal-viewport{ background:radial-gradient(1200px 700px at 70% -10%, #16223b 0%, var(--ink) 55%, #070b14 100%); }
+  .reveal h1,.reveal h2,.reveal h3{
+    font-family:'Anton',sans-serif; font-weight:400; letter-spacing:.5px;
+    text-transform:uppercase; color:var(--white); line-height:1.04; margin:0 0 .35em;
+  }
+  .reveal h1{ font-size:2.6em; }
+  .reveal h2{ font-size:1.7em; }
+  .reveal h3{ font-size:1.05em; color:var(--gold); letter-spacing:2px; }
+  .reveal p,.reveal li{ font-size:.78em; line-height:1.5; color:#dce6f5; }
+  .gold{ color:var(--gold); }
+  .kicker{ font-family:'Anton'; letter-spacing:4px; text-transform:uppercase;
+    color:var(--gold); font-size:.7em; margin-bottom:.6em; }
+  .rule{ height:4px; width:120px; background:var(--gold); border:0; margin:.2em 0 .9em; }
+  .sub{ color:var(--muted); font-size:.72em; }
+  .reveal ul{ margin-left:1.1em; } .reveal li{ margin:.42em 0; }
+  .reveal li::marker{ color:var(--gold); }
+  .grid{ display:grid; gap:18px; }
+  .cards4{ grid-template-columns:repeat(4,1fr); }
+  .cards3{ grid-template-columns:repeat(3,1fr); }
+  .card{ background:linear-gradient(180deg,#15223b,#0e1729); border:1px solid var(--line);
+    border-radius:14px; padding:18px 18px 16px; }
+  .card .n{ font-family:'Anton'; color:var(--gold); font-size:1.0em; letter-spacing:1px; }
+  .card p{ font-size:.62em; margin:.4em 0 0; color:#c7d3e6; }
+  .layer{ display:flex; align-items:center; gap:16px; background:#101c33;
+    border:1px solid var(--line); border-left:5px solid var(--gold);
+    border-radius:10px; padding:12px 16px; margin:.5em 0; }
+  .layer .lh{ font-family:'Anton'; color:var(--white); font-size:.8em; min-width:170px; letter-spacing:1px; }
+  .layer .ld{ font-size:.62em; color:#bccbe2; }
+  .hyp{ background:#101c33; border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin:.55em 0; }
+  .hyp b{ color:var(--gold); font-family:'Anton'; letter-spacing:1px; font-weight:400; }
+  .hyp span{ font-size:.74em; color:#dce6f5; }
+  .stack{ display:flex; flex-wrap:wrap; gap:8px; margin-top:.6em; }
+  .chip{ font-size:.56em; background:#0e1729; border:1px solid var(--line);
+    color:#cdd9ec; padding:5px 11px; border-radius:999px; }
+  .chip.g{ border-color:var(--gold-dark); color:var(--gold); }
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:.4em; }
+  .stat{ text-align:center; background:#101c33; border:1px solid var(--line); border-radius:12px; padding:14px 8px; }
+  .stat .v{ font-family:'Anton'; color:var(--gold); font-size:1.5em; }
+  .stat .l{ font-size:.52em; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  .reveal section .footer{ position:absolute; bottom:-8px; left:0; font-size:.5em; color:var(--muted); letter-spacing:1px; }
+  .center{ text-align:center; }
+  .big{ font-size:1.0em; }
+  table.res{ width:100%; border-collapse:collapse; font-size:.62em; margin-top:.3em; }
+  table.res th,table.res td{ border-bottom:1px solid var(--line); padding:8px 10px; text-align:left; }
+  table.res th{ color:var(--gold); font-family:'Anton'; font-weight:400; letter-spacing:1px; }
+  table.res td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .reveal .controls{ color:var(--gold); }
+  .reveal .progress{ color:var(--gold); }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+  <!-- 0 · TITLE -->
+  <section data-background-gradient="radial-gradient(1100px 600px at 75% 0%, #1b2c4d, #0a0f1c 60%, #05080f)">
+    <div style="margin-top:.3em">
+      <div class="kicker">Doctor of Business Administration · Applied Research Artefact</div>
+      <h1>Forge&#8209;Vision</h1>
+      <hr class="rule">
+      <p class="big">A Hybrid <span class="gold">Computer Vision</span> &amp; <span class="gold">Generative AI</span> System for<br>Real-Time and Simulation-Based Employee Training</p>
+      <p class="sub" style="margin-top:1.4em">Mashkur Alam &nbsp;·&nbsp; Prof. Dr. Karim Mohammed Rezaul &nbsp;·&nbsp; AI-Based Training for Employees</p>
+    </div>
+    <div class="footer">FORGE-VISION · SYSTEM WALKTHROUGH</div>
+  </section>
+
+  <!-- 1 · PROBLEM -->
+  <section>
+    <div class="kicker">The Problem</div>
+    <h2>Error happens <span class="gold">during</span> execution —<br>feedback arrives too late</h2>
+    <hr class="rule">
+    <ul>
+      <li>A large share of operational error stems from <b>deviation from Standard Operating Procedures</b> at the moment of execution — not from a lack of knowledge.</li>
+      <li>Traditional training is <b>episodic and retrospective</b>: train → assess → feedback, long after the error, when its instructional value has decayed.</li>
+      <li>The research problem is one of <b>timing and specificity</b>: can a system detect a procedural deviation <i>as it happens</i> and deliver corrective, explainable guidance <i>immediately</i>?</li>
+    </ul>
+    <div class="footer">FORGE-VISION · SYSTEM WALKTHROUGH</div>
+  </section>
+
+  <!-- 2 · HYPOTHESES -->
+  <section>
+    <div class="kicker">Research Hypotheses</div>
+    <h2>Three testable claims</h2>
+    <hr class="rule">
+    <div class="hyp"><b>H1</b> &nbsp;<span>Employees trained with FORGE-Vision achieve a <b>statistically significant reduction in task-error rates</b> vs. traditional training (p &lt; 0.05).</span></div>
+    <div class="hyp"><b>H2</b> &nbsp;<span>The <b>hybrid pathway</b> (simulation → real-time) yields better skill transfer than simulation-only <i>or</i> real-time-only.</span></div>
+    <div class="hyp"><b>H3</b> &nbsp;<span>AI-generated <b>real-time feedback reduces task-completion time</b> vs. post-hoc feedback.</span></div>
+    <div class="footer">FORGE-VISION · SYSTEM WALKTHROUGH</div>
+  </section>
+
+  <!-- 3 · ARCHITECTURE -->
+  <section>
+    <div class="kicker">System Architecture</div>
+    <h2>A four-layer real-time pipeline</h2>
+    <hr class="rule">
+    <div class="layer"><div class="lh">1 · Perception</div><div class="ld">OpenCV frame processing · MediaPipe pose (33 body + 42 hand landmarks) · YOLOv8 tool &amp; PPE detection</div></div>
+    <div class="layer"><div class="lh">2 · Recognition</div><div class="ld">MobileNetV3 + LSTM action recognition — 2.3M params · 85.8% accuracy · 62 ms p95 latency (edge-ready)</div></div>
+    <div class="layer"><div class="lh">3 · Intelligence</div><div class="ld">SOP deviation detector → structured context → LLM (Groq Llama-3.3) generates the corrective instruction</div></div>
+    <div class="layer"><div class="lh">4 · Guidance</div><div class="ld">Explainable feedback delivered to the worker in &lt; 2 seconds — what was wrong, and why</div></div>
+    <div class="stack">
+      <span class="chip g">PyTorch</span><span class="chip g">OpenCV</span><span class="chip g">MediaPipe</span><span class="chip g">YOLOv8</span>
+      <span class="chip">FastAPI</span><span class="chip">Streamlit</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span><span class="chip">Groq LLM</span>
+    </div>
+    <div class="footer">FORGE-VISION · SYSTEM WALKTHROUGH</div>
+  </section>
+
+  <!-- 4 · RESULTS (used for closing reference) -->
+  <section>
+    <div class="kicker">Empirical Evidence</div>
+    <h2>The hypotheses, tested</h2>
+    <hr class="rule">
+    <table class="res">
+      <tr><th>Hypothesis</th><th>Test</th><th>Result</th><th>Verdict</th></tr>
+      <tr><td>H1 — error reduction</td><td>Welch t (control vs hybrid)</td><td class="num">p≈0 · d≈−3.4</td><td class="gold">Supported</td></tr>
+      <tr><td>H2 — hybrid &gt; single-modality</td><td>One-way ANOVA (3 groups)</td><td class="num">p≈0 · η²≈0.27</td><td class="gold">Supported</td></tr>
+      <tr><td>H3 — faster completion</td><td>Paired t (within-subjects)</td><td class="num">significant</td><td class="gold">Supported</td></tr>
+    </table>
+    <div class="stats">
+      <div class="stat"><div class="v">70.4%</div><div class="l">Hybrid acc.</div></div>
+      <div class="stat"><div class="v">60.4%</div><div class="l">Real-time</div></div>
+      <div class="stat"><div class="v">49.4%</div><div class="l">Simulation</div></div>
+      <div class="stat"><div class="v">21.6%</div><div class="l">Control</div></div>
+    </div>
+    <p class="sub" style="margin-top:.7em">Severity-weighted accuracy by study group · control 8.30 → hybrid 2.80 deviations per worker.</p>
+    <div class="footer">FORGE-VISION · SYSTEM WALKTHROUGH</div>
+  </section>
+
+  <!-- 5 · DEPLOYMENT -->
+  <section>
+    <div class="kicker">Deployment</div>
+    <h2>Live, free, reproducible</h2>
+    <hr class="rule">
+    <div class="grid cards3">
+      <div class="card"><div class="n">One entry</div><p>A Caddy reverse proxy fronts the API and interface on a single HTTPS port — the live-camera WebSocket and dashboard share one origin.</p></div>
+      <div class="card"><div class="n">Cloud demo</div><p>Running at zero infrastructure cost on a Hugging Face Space + managed Postgres — login and explore today.</p></div>
+      <div class="card"><div class="n">Self-hosted</div><p>A production Docker Compose stack (TLS, baked images, bundled Postgres) ships for organisational deployment.</p></div>
+    </div>
+    <p class="sub" style="margin-top:1em">Reproducible by design — fixed seeds · version-controlled config · one-command deploy.</p>
+    <div class="footer">FORGE-VISION · SYSTEM WALKTHROUGH</div>
+  </section>
+
+  <!-- 6 · CONCLUSION -->
+  <section class="center" data-background-gradient="radial-gradient(1100px 600px at 50% 0%, #1b2c4d, #0a0f1c 60%, #05080f)">
+    <div class="kicker" style="text-align:center">Conclusion</div>
+    <h2 style="text-align:center">Contribution</h2>
+    <hr class="rule" style="margin-left:auto;margin-right:auto">
+    <p style="max-width:80%;margin:0 auto;">FORGE-Vision shows that <span class="gold">real-time, explainable, AI-generated guidance</span> can be delivered within a two-second budget on commodity hardware — that a <span class="gold">hybrid simulation-to-reality pathway</span> measurably outperforms single-modality training — and that the platform doubles as a <span class="gold">rigorous instrument</span> for testing those claims.</p>
+    <p style="text-align:center;margin-top:1.5em" class="big gold"><b>Thank you — questions welcome.</b></p>
+    <p style="text-align:center;margin-top:.7em" class="sub">Presented by <span class="gold">Mashkur Alam</span></p>
+    <div class="footer" style="left:50%;transform:translateX(-50%)">MASHKUR ALAM · PROF. DR. KARIM MOHAMMED REZAUL · DBA</div>
+  </section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash:true, controls:true, progress:true, slideNumber:'c/t',
+    transition:'slide', backgroundTransition:'fade', width:1280, height:720, margin:0.06 });
+</script>
+</body>
+</html>

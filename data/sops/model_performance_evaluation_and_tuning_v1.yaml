@@ -1,0 +1,127 @@
+id: model_performance_evaluation_and_tuning_v1
+name: Model Performance Evaluation and Tuning
+version: "1.0"
+category: Data Science and AI
+department: Data Science
+estimated_duration_seconds: 6300
+required_ppe: []
+steps:
+  - id: 1
+    name: establish_baseline_performance
+    description: Establish baseline model performance using simple baseline (mean prediction, random classifier). Document baseline metrics for comparison with more complex models.
+    required_objects: [baseline_model_scripts, metrics_calculation_tools]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: select_appropriate_evaluation_metrics
+    description: Select evaluation metrics appropriate for the problem type (classification vs regression, balanced vs imbalanced). Define thresholds for acceptable performance.
+    required_objects: [metrics_definition_guide, evaluation_framework]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: evaluate_model_on_validation_data
+    description: Evaluate trained model on validation set using all selected metrics. Generate confusion matrix, ROC curve, precision-recall curve, and other diagnostic plots.
+    required_objects: [evaluation_scripts, diagnostic_visualization_tools, metrics_calculation]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: analyze_model_predictions_and_errors
+    description: Analyze model predictions in detail. Identify patterns in correct vs incorrect predictions. Examine false positives, false negatives, and edge cases.
+    required_objects: [error_analysis_scripts, visualization_tools, prediction_analysis_notebook]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: identify_performance_bottlenecks
+    description: Identify specific areas where model underperforms. Determine whether issues are due to data, features, model architecture, or hyperparameters.
+    required_objects: [performance_analysis_tools, feature_importance_analysis]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: assess_overfitting_and_underfitting
+    description: Compare training and validation metrics to assess overfitting or underfitting. Analyze learning curves to understand model complexity vs data fit.
+    required_objects: [learning_curve_analysis, overfitting_detection_tools]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: perform_hyperparameter_sensitivity_analysis
+    description: Analyze sensitivity of model performance to hyperparameter changes. Identify which hyperparameters have largest impact on performance.
+    required_objects: [sensitivity_analysis_scripts, hyperparameter_importance_tool]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: conduct_systematic_hyperparameter_optimization
+    description: Conduct systematic hyperparameter optimization using grid search, random search, or Bayesian optimization. Document search space and optimization results.
+    required_objects: [hyperparameter_optimization_tool, search_space_definition, optimization_framework]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 1800
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: evaluate_optimized_model_on_test_set
+    description: Evaluate optimized model on held-out test set to get unbiased estimate of real-world performance. Document final performance metrics.
+    required_objects: [test_evaluation_scripts, test_dataset, metrics_calculation]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: perform_cross_validation
+    description: Perform k-fold cross-validation to validate stability and generalization of optimized model. Calculate mean and standard deviation of metrics across folds.
+    required_objects: [cross_validation_scripts, kfold_tools]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 11
+    name: compare_models_and_select_best
+    description: Compare performance of all candidate models. Use statistical tests to determine if differences are significant. Select best model based on performance and complexity tradeoff.
+    required_objects: [model_comparison_framework, statistical_test_tools]
+    required_pose: null
+    must_follow: [10]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 12
+    name: document_final_model_and_justifications
+    description: Document final selected model including architecture, hyperparameters, training procedure, and performance metrics. Document rationale for model selection and key findings.
+    required_objects: [model_documentation_template, performance_summary, business_impact_analysis]
+    required_pose: null
+    must_follow: [11]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

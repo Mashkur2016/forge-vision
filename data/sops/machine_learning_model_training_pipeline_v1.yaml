@@ -1,0 +1,127 @@
+id: machine_learning_model_training_pipeline_v1
+name: Machine Learning Model Training Pipeline
+version: "1.0"
+category: Data Science and AI
+department: Data Science
+estimated_duration_seconds: 7200
+required_ppe: []
+steps:
+  - id: 1
+    name: define_model_objectives_and_success_metrics
+    description: Define clear model objectives, business problem to solve, target variable, and success metrics (accuracy, precision, recall, F1, AUC, RMSE, etc.).
+    required_objects: [project_charter, success_metrics_definition, business_context]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: prepare_and_explore_training_data
+    description: Load and explore training dataset. Conduct exploratory data analysis including distributions, correlations, missing values, and outliers. Document findings.
+    required_objects: [data_repository, data_profiling_tool, eda_notebook]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: engineer_and_select_features
+    description: Create derived features from raw features. Select most predictive features using correlation analysis, feature importance, or domain expertise. Document feature definitions.
+    required_objects: [feature_engineering_scripts, feature_selection_tool, feature_documentation]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: split_data_into_train_validation_test
+    description: Split data into training, validation, and test sets with proper random seed for reproducibility. Ensure no data leakage between sets. Document split strategy and seed.
+    required_objects: [data_splitting_scripts, random_seed_documentation]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: normalize_and_scale_features
+    description: Apply feature scaling or normalization appropriate for algorithm (standardization, normalization, robust scaling). Fit scaler on training data only.
+    required_objects: [scaling_scripts, preprocessing_pipeline]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: select_and_initialize_model_algorithms
+    description: Select appropriate model algorithms based on problem type and data characteristics. Initialize models with baseline hyperparameters. Document rationale for selection.
+    required_objects: [model_selection_framework, algorithm_documentation, baseline_configs]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: train_models_on_training_data
+    description: Train selected models on training dataset. Monitor training metrics and convergence. Save trained model checkpoints periodically.
+    required_objects: [machine_learning_framework, training_scripts, model_storage]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 1200
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: evaluate_models_on_validation_set
+    description: Evaluate trained models on validation set using pre-defined success metrics. Compare model performance and select best performing model for further tuning.
+    required_objects: [evaluation_scripts, metrics_calculation_tools]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: perform_hyperparameter_tuning_and_optimization
+    description: Perform systematic hyperparameter tuning using grid search, random search, or Bayesian optimization. Evaluate performance after each tuning iteration.
+    required_objects: [hyperparameter_tuning_tool, tuning_search_space]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 1800
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: evaluate_final_model_on_test_set
+    description: Evaluate final optimized model on held-out test set to estimate real-world performance. Generate confusion matrix, ROC curve, and other diagnostic plots.
+    required_objects: [test_evaluation_scripts, evaluation_metrics, diagnostic_visualizations]
+    required_pose: null
+    must_follow: [9]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 11
+    name: analyze_model_errors_and_failures
+    description: Analyze prediction errors and failure cases. Identify patterns in errors to understand model limitations and potential improvements.
+    required_objects: [error_analysis_notebook, failure_case_analysis]
+    required_pose: null
+    must_follow: [10]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 12
+    name: document_model_and_save_artifacts
+    description: Document model architecture, hyperparameters, training procedure, and performance metrics. Save trained model, scalers, and feature lists for deployment.
+    required_objects: [model_card_template, artifact_storage, version_control]
+    required_pose: null
+    must_follow: [11]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []

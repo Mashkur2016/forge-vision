@@ -1,0 +1,87 @@
+id: first_aid_response_v1
+name: First Aid Incident Response
+version: "1.0"
+category: Health and Safety
+department: All Departments
+estimated_duration_seconds: 720
+required_ppe: [disposable_gloves]
+steps:
+  - id: 1
+    name: assess_scene_safety
+    description: Before approaching, assess the scene for any hazards to yourself or the casualty such as chemicals, electrical equipment, or moving vehicles. Only approach when safe.
+    required_objects: [hazard, casualty]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: []
+
+  - id: 2
+    name: call_for_assistance
+    description: Call out for help and direct a bystander to call 999 or the internal emergency extension. State clearly the location, nature of injury, and number of casualties.
+    required_objects: [telephone]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: []
+
+  - id: 3
+    name: don_disposable_gloves
+    description: Put on disposable gloves from your first aid kit before making contact with the casualty. This protects both you and the casualty from cross-contamination.
+    required_objects: [disposable_gloves, first_aid_kit]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: [disposable_gloves]
+
+  - id: 4
+    name: assess_casualty_responsiveness
+    description: Kneel beside the casualty. Tap their shoulders and call "Are you okay?" Check for breathing. If unresponsive and not breathing normally, begin CPR immediately.
+    required_objects: [casualty]
+    required_pose: kneeling
+    must_follow: [3]
+    time_limit_seconds: 30
+    safety_critical: true
+    required_ppe: [disposable_gloves]
+
+  - id: 5
+    name: administer_appropriate_first_aid
+    description: Apply appropriate first aid based on the injury type. Do not move the casualty unless in immediate danger. Use dressings, bandages, or ice packs as required.
+    required_objects: [first_aid_kit, bandage, dressing]
+    required_pose: kneeling
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: true
+    required_ppe: [disposable_gloves]
+
+  - id: 6
+    name: monitor_and_reassure_casualty
+    description: Stay with the casualty and reassure them calmly. Monitor their condition until emergency services or a senior first aider arrives. Do not give food or drink.
+    required_objects: [casualty, blanket]
+    required_pose: kneeling
+    must_follow: [5]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: [disposable_gloves]
+
+  - id: 7
+    name: complete_incident_report_form
+    description: After the incident, complete the incident report form accurately. Record time, location, nature of injury, first aid given, and the names of any witnesses.
+    required_objects: [incident_report_form, pen]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: restock_first_aid_kit
+    description: Check the first aid kit and replace any used items. Record stock usage in the first aid kit log. Report any shortages to the facilities manager immediately.
+    required_objects: [first_aid_kit, stock_log, pen]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 60
+    safety_critical: false
+    required_ppe: []

@@ -1,0 +1,107 @@
+id: statistical_analysis_and_reporting_v1
+name: Statistical Analysis and Reporting
+version: "1.0"
+category: Data Analytics
+department: Analytics
+estimated_duration_seconds: 5100
+required_ppe: []
+steps:
+  - id: 1
+    name: define_analytical_objectives
+    description: Define clear analytical objectives, hypotheses to test, target metrics, and expected business impact. Document success criteria and stakeholder expectations.
+    required_objects: [analysis_charter, hypothesis_documentation, business_requirements]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: prepare_analysis_dataset
+    description: Prepare cleaned and aggregated dataset for analysis. Select appropriate time periods, apply filters, and create derived variables needed for analysis.
+    required_objects: [data_preparation_scripts, cleaned_data_source, variable_definitions]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: perform_exploratory_data_analysis
+    description: Conduct exploratory data analysis including summary statistics, distributions, correlations, and trend identification. Create visualizations to understand data patterns.
+    required_objects: [statistical_software, visualization_tools, analysis_templates]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 4
+    name: test_statistical_hypotheses
+    description: Apply appropriate statistical tests (t-tests, ANOVA, chi-square, etc.) based on data type and analysis objectives. Document test assumptions and methodology.
+    required_objects: [statistical_software, statistical_reference_materials, test_scripts]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 5
+    name: calculate_confidence_intervals_and_significance
+    description: Calculate confidence intervals and p-values for key findings. Assess statistical significance and practical significance of findings.
+    required_objects: [statistical_software, significance_threshold_policy]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: identify_trends_and_patterns
+    description: Identify trends over time, seasonal patterns, and key drivers of observed metrics. Segment data by relevant dimensions to understand variations.
+    required_objects: [time_series_analysis_tool, segmentation_scripts]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 7
+    name: develop_findings_and_conclusions
+    description: Synthesize analytical findings into clear conclusions. Connect statistical findings to business context and develop actionable recommendations.
+    required_objects: [analysis_findings_template, business_context_documentation]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: create_analysis_visualizations
+    description: Create clear, impactful visualizations communicating key findings and insights. Ensure visualizations follow data visualization best practices and company standards.
+    required_objects: [visualization_tool, design_standards, chart_templates]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 9
+    name: prepare_comprehensive_report
+    description: Prepare comprehensive analysis report including executive summary, methodology, findings, visualizations, and recommendations. Ensure report is clear for non-technical audience.
+    required_objects: [report_template, presentation_software, stakeholder_communication_guidelines]
+    required_pose: null
+    must_follow: [8]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []
+
+  - id: 10
+    name: present_findings_to_stakeholders
+    description: Present findings and recommendations to relevant stakeholders. Facilitate discussion, answer questions, and document feedback for follow-up actions.
+    required_objects: [presentation_slides, stakeholder_list, feedback_template]
+    required_pose: standing
+    must_follow: [9]
+    time_limit_seconds: 600
+    safety_critical: false
+    required_ppe: []

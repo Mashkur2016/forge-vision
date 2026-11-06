@@ -1,0 +1,205 @@
+# FORGE-Vision — System Diagrams (Mermaid)
+
+These diagrams are referenced by `SystemImplementationReport.md`. Render them in any
+Mermaid-aware viewer (VS Code Mermaid preview, GitHub, mermaid.live).
+
+---
+
+## Diagram 1 — Four-Layer System Architecture
+
+```mermaid
+flowchart TB
+    subgraph L1["Layer 1 · Input"]
+        A1["Phase A: Synthetic video<br/>(OpenCV augmentation,<br/>1,200 labelled clips)"]
+        A2["Phase B: Live camera<br/>(webcam / IP / RTSP)"]
+    end
+
+    subgraph L2["Layer 2 · Computer Vision"]
+        B1["Preprocessor<br/>resize · denoise · normalise"]
+        B2["MediaPipe Holistic<br/>33 body + 21x2 hand landmarks"]
+        B3["YOLOv8n<br/>tools · PPE · equipment"]
+        B4["FrameProcessor<br/>300-dim feature vector"]
+    end
+
+    subgraph L3["Layer 3 · Intelligence"]
+        C1["ActionRecognizer<br/>MobileNetV3 + 2-layer LSTM"]
+        C2["SOP Sequence Tracker<br/>state machine"]
+        C3["SOP Deviation Detector<br/>6 classes + severity + WHAT/WHY"]
+    end
+
+    subgraph L4["Layer 4 · Feedback & Output"]
+        D1["LLM Feedback Engine<br/>6 providers (OpenAI/Groq/<br/>Anthropic/Gemini/xAI/Ollama)"]
+        D2["Multi-modal delivery<br/>text overlay + TTS"]
+        D3["PostgreSQL<br/>sessions · deviations · profiles"]
+        D4["Streamlit Analytics<br/>dashboard + reports"]
+    end
+
+    A1 --> B1
+    A2 --> B1
+    B1 --> B2 --> B4
+    B1 --> B3 --> B4
+    B4 --> C1 --> C2 --> C3
+    C3 -->|deviation + context| D1 --> D2
+    C3 --> D3
+    D1 --> D3
+    D3 --> D4
+```
+
+---
+
+## Diagram 2 — Real-Time Inference Data Flow (Phase B)
+
+```mermaid
+flowchart LR
+    CAM(["Camera<br/>~30 fps"]) --> CAP["CameraCapture.read()"]
+    CAP --> FP["FrameProcessor"]
+    FP --> POSE["Pose landmarks"]
+    FP --> OBJ["Object/PPE detection"]
+    POSE --> WIN["16-frame sliding window"]
+    OBJ --> WIN
+    WIN -->|every 4 frames| AR["ActionRecognizer<br/>action_class + confidence"]
+    AR --> DET{"SOPDetector<br/>deviation?"}
+    DET -->|CORRECT| LOG["update session state"]
+    DET -->|deviation,<br/>conf >= 0.6| LLM["LLM feedback<br/>(WHAT + WHY -> instruction)"]
+    LLM --> TTS["TTS (pyttsx3)"]
+    LLM --> WS["WebSocket -> Streamlit UI"]
+    LLM --> DB[("DeviationLog<br/>PostgreSQL")]
+    LOG --> WS
+    WS --> UI["Live Training page<br/>feedback card + timers"]
+    DET -.->|end of session| PERSIST[("TrainingSessionLog<br/>+ WorkerProfile update")]
+```
+
+---
+
+## Diagram 3 — Project Phase Flow (Simulation → Deployment → Evaluation)
+
+```mermaid
+flowchart LR
+    P0["Phase 0<br/>Foundation, auth,<br/>LLM settings"] --> P1
+    P1["Phase 1<br/>Simulation:<br/>SOPs + 1,200 clips"] --> P2
+    P2["Phase 2<br/>CV training:<br/>85.8% acc, 0.875 F1"] --> P3
+    P3["Phase 3<br/>Real-time prototype:<br/>p95 < 75 ms"] --> P4
+    P4["Phase 4<br/>Integration:<br/>analytics, RBAC, E5/E6/E7"] --> P5
+    P5["Phase 5<br/>Academic evaluation:<br/>H1 / H2 / H3"]
+
+    P5 --> SYN["Synthetic track<br/>(seeded study data,<br/>active now)"]
+    P5 --> REAL["Real-participant track<br/>(ethics-gated)"]
+```
+
+---
+
+## Diagram 4 — Database Entity-Relationship Diagram
+
+```mermaid
+erDiagram
+    USER ||--o| WORKER_PROFILE : "has"
+    USER ||--o{ TRAINING_SESSION_LOG : "performs"
+    TRAINING_SESSION_LOG ||--o{ DEVIATION_LOG : "contains"
+    LLM_SETTINGS }o--|| TRAINING_SESSION_LOG : "stamps provider/model"
+
+    USER {
+        int id PK
+        string email UK
+        string first_name
+        string last_name
+        enum role "staff|trainer|manager|admin"
+        string department
+        bool mfa_enabled
+        bool gdpr_consent
+    }
+    WORKER_PROFILE {
+        int id PK
+        int user_id FK
+        enum skill_level
+        int total_sessions
+        int total_deviations
+        int total_high_severity
+        int sessions_to_competency_est
+    }
+    TRAINING_SESSION_LOG {
+        int id PK
+        string session_id UK
+        int worker_id FK
+        string sop_id
+        string sop_name
+        float duration_seconds
+        int deviation_count
+        int high_severity_count
+        float latency_p95_ms
+        string llm_provider
+        string llm_model
+    }
+    DEVIATION_LOG {
+        int id PK
+        int session_log_id FK
+        string deviation_class
+        string severity
+        string expected_step_name
+        float model_confidence
+        text what
+        text why
+        text feedback_text
+    }
+    LLM_SETTINGS {
+        int id PK
+        string provider
+        string model_name
+        bool is_active
+    }
+    AUDIT_LOG {
+        int id PK
+        datetime timestamp
+        string user
+        string action
+        string resource
+    }
+```
+
+---
+
+## Diagram 5 — AI Inference Pipeline (per-component breakdown)
+
+```mermaid
+flowchart TB
+    F["BGR frame"] --> CV
+    subgraph CV["Perception · per frame"]
+        P["MediaPipe BlazePose<br/>33 body landmarks"]
+        Y["YOLOv8n<br/>tools · PPE · objects"]
+        E["MediaPipe FaceMesh<br/>affective state (emotion)"]
+    end
+    CV --> AR["ActionRecognizer<br/>MobileNetV3-Small + 2-layer LSTM<br/>(2.3M params · 85.8% test acc)"]
+    AR --> SD["SOPDetector<br/>LSTM sequence model:<br/>executed vs expected steps"]
+    SD --> EV["SOPDeviationEvent<br/>class · severity · WHAT/WHY · confidence"]
+    EV -->|structured event| LLM["LLM Feedback Engine<br/>(Groq / Gemini / … )<br/>→ supportive coaching text"]
+    EV --> DBN[("DeviationLog")]
+    E -.-> DBN
+    LLM --> OUT["Annotated frame + feedback<br/>(WebSocket / TTS)"]
+    NEW["New Phase-B footage"] -.->|EWC continual learning<br/>(no catastrophic forgetting)| AR
+```
+
+*Note: stages **CV → Action → Deviation** (the CV/ML "brain") decide **what** is happening and
+what is wrong; the **LLM only phrases the corrective guidance**. The rule-based template is the
+fallback when no LLM is configured.*
+
+---
+
+## Diagram 6 — Cloud Deployment Topology (Hugging Face Space)
+
+```mermaid
+flowchart LR
+    BR["Viewer browser<br/>getUserMedia → canvas → JPEG frames"]
+    BR -->|HTTPS / WSS| CADDY
+    subgraph SPACE["Hugging Face Docker Space · single container"]
+        CADDY["Caddy :7860 (public, the only exposed port)"]
+        CADDY -->|/api/* · /ws/*| API["FastAPI :8000<br/>CV pipeline + LLM feedback"]
+        CADDY -->|everything else| UIS["Streamlit :8501"]
+    end
+    API -->|asyncpg / TLS| SUPA[("Supabase Postgres")]
+    API -->|HTTPS| GROQ["Groq LLM API"]
+    API -->|/api/v1/ws/live frames| API
+```
+
+*The live camera streams browser-captured frames to the FastAPI WebSocket; the server returns
+annotated frames + feedback. WebRTC was dropped because Hugging Face Spaces expose no UDP and only
+one HTTP port, which a WebSocket + Caddy reverse-proxy satisfies. Frames are processed in server
+memory and never persisted.*

@@ -1,0 +1,87 @@
+id: security_incident_response_v1
+name: Security Incident Response Procedure
+version: "1.0"
+category: Cybersecurity
+department: IT Security
+estimated_duration_seconds: 4200
+required_ppe: []
+steps:
+  - id: 1
+    name: detect_and_alert_incident
+    description: Detect suspicious activity through SIEM alerts, user reports, or automated monitoring. Immediately notify the Incident Response Team via the security hotline or emergency Slack channel.
+    required_objects: [siem_dashboard, communication_system]
+    required_pose: null
+    must_follow: []
+    time_limit_seconds: 120
+    safety_critical: false
+    required_ppe: []
+
+  - id: 2
+    name: document_initial_incident_details
+    description: Create an incident ticket with timestamp, affected systems, affected users, initial impact assessment, and initial severity classification (Critical/High/Medium/Low).
+    required_objects: [incident_tracking_system, notes_application]
+    required_pose: null
+    must_follow: [1]
+    time_limit_seconds: 180
+    safety_critical: false
+    required_ppe: []
+
+  - id: 3
+    name: isolate_affected_systems
+    description: Disable network access or disconnect affected systems from the network to prevent spread. Document the isolation steps taken and timestamp of isolation.
+    required_objects: [network_switch, isolation_procedure_checklist]
+    required_pose: null
+    must_follow: [2]
+    time_limit_seconds: 300
+    safety_critical: true
+    required_ppe: []
+
+  - id: 4
+    name: preserve_forensic_evidence
+    description: Collect logs, memory dumps, and system snapshots from affected systems. Store evidence on isolated forensic workstation with chain of custody documentation.
+    required_objects: [forensic_toolkit, evidence_storage_device, chain_of_custody_form]
+    required_pose: null
+    must_follow: [3]
+    time_limit_seconds: 600
+    safety_critical: true
+    required_ppe: []
+
+  - id: 5
+    name: conduct_root_cause_analysis
+    description: Analyze logs and forensic evidence to determine the attack vector, entry point, and scope of compromise. Document findings and timeline of events.
+    required_objects: [siem_dashboard, log_analysis_tools, evidence_files]
+    required_pose: null
+    must_follow: [4]
+    time_limit_seconds: 900
+    safety_critical: false
+    required_ppe: []
+
+  - id: 6
+    name: execute_containment_measures
+    description: Apply patches, change credentials, block malicious IPs, and implement additional security controls to prevent further compromise.
+    required_objects: [patch_management_system, firewall_console, password_manager]
+    required_pose: null
+    must_follow: [5]
+    time_limit_seconds: 600
+    safety_critical: true
+    required_ppe: []
+
+  - id: 7
+    name: restore_and_validate_systems
+    description: Restore systems from clean backups, validate system integrity, run security scans, and confirm normal operations. Document all restoration steps.
+    required_objects: [backup_system, security_scanner, validation_checklist]
+    required_pose: null
+    must_follow: [6]
+    time_limit_seconds: 1200
+    safety_critical: false
+    required_ppe: []
+
+  - id: 8
+    name: generate_incident_report
+    description: Complete the full incident report including timeline, impact assessment, root cause, containment measures, and recommendations for preventing similar incidents.
+    required_objects: [incident_reporting_template, communication_system]
+    required_pose: null
+    must_follow: [7]
+    time_limit_seconds: 300
+    safety_critical: false
+    required_ppe: []
