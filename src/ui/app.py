@@ -750,6 +750,16 @@ def _native_login_page() -> None:
       }
       [data-testid="stForm"] button:hover { background: #E6B800 !important; }
 
+      /* Close the stray gap above the gold panel: the invisible style-only blocks stacked above the two
+         columns each add one flex row-gap (1rem), pushing the panel down ~32px. Login render only. */
+      [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] { gap: 0 !important; }
+
+      /* Space between the password box and its show/hide (eye) button, which otherwise touch */
+      [data-testid="stForm"] [data-baseweb="base-input"] button { margin-left: .7rem !important; }
+      /* …and let the eye button end flush with the email box above (Streamlit adds 14px right padding) */
+      [data-testid="stForm"] [data-baseweb="input"] { padding-right: 0 !important; }
+      [data-testid="stForm"] [data-baseweb="base-input"] input { flex: 1 1 auto !important; min-width: 0 !important; }
+
       /* "Watch the video — How it works" link in the gold hero panel */
       .forge-login-hero a.fv-video-link {
           display: inline-flex; align-items: center; gap: .55rem; margin-top: 1.6rem;
@@ -795,7 +805,7 @@ def _native_login_page() -> None:
     with left:
         st.markdown(
             """
-            <div class="forge-login-hero" style="background:#FFCC00;min-height:94vh;display:flex;flex-direction:column;
+            <div class="forge-login-hero" style="background:#FFCC00;min-height:100vh;display:flex;flex-direction:column;
                         align-items:center;justify-content:center;position:relative;overflow:hidden;">
               <div style="position:absolute;bottom:-120px;right:-120px;width:400px;height:400px;
                           border-radius:50%;background:rgba(0,0,0,0.06);"></div>
