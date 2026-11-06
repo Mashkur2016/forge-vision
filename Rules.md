@@ -175,6 +175,8 @@ This document defines the binding rules for all technical, ethical, and academic
 **Suite result (measured with `pytest` on 2026-06-09): 427 passed, 3 skipped, 0 failed.**
 The 3 skipped tests are guarded by optional dependencies (`mediapipe`, `ultralytics`) — not failures.
 
+**Re-measured 2026-11-06: 510 passed, 0 failed, 0 skipped** (MediaPipe and YOLO installed, `protobuf 4.25.5`). In a development environment with `protobuf 7.x` four MediaPipe tests fail because `mediapipe 0.10.14` requires `protobuf<5` — an environment mismatch, not a logic defect. The coverage figures below were not re-measured and date from 2026-06-09.
+
 | Phase | Area | Status |
 |-------|------|--------|
 | Phase 1 — Simulation | SOP parser/schema, augmentation, scenario generator | ✅ all pass |

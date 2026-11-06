@@ -59,7 +59,7 @@ Action-recognition model, trained on 1,200 **synthetic** clips (900 / 180 / 120 
 | p95 inference latency / sample | ≤ 500 ms | 62.1 ms |
 | Model size / parameters | edge-ready | 8.8 MB / 2.3 M |
 
-Test suite: 500+ tests; the core algorithmic modules measure 87% line coverage (the Streamlit UI layer and
+Test suite: 510 tests, all passing against the pinned dependencies (re-measured 2026-11-06); the core algorithmic modules measured 87% line coverage (2026-06-09) (the Streamlit UI layer and
 run-once CLI entry points are validated manually — see [Rules.md](Rules.md) §5.4 for the honest breakdown).
 
 ## Quick start (Docker)
