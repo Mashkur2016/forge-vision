@@ -2,7 +2,7 @@
 
 **A Hybrid Computer Vision and Generative AI System for Real-Time and Simulation-Based Employee Training**
 
-DBA research project (Coventry University) — Prof. Dr. Karim Mohammed Rezaul
+DBA Research project: Prof. Dr. Karim Mohammed Rezaul and Mashkur Alam
 
 FORGE-Vision watches a worker carry out a task, compares what it sees with the Standard Operating Procedure (SOP),
 detects deviations, and gives instant, personalised, AI-generated corrective guidance. It is built in two phases:
