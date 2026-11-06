@@ -752,6 +752,10 @@ def _native_login_page() -> None:
 
       /* Close the stray gap above the gold panel: the invisible style-only blocks stacked above the two
          columns each add one flex row-gap (1rem), pushing the panel down ~32px. Login render only. */
+      /* Targets the vertical block that holds the two-column row (works across Streamlit versions: the
+         block is a direct child of stMainBlockContainer on newer releases but sits behind extra wrapper
+         layers on the pinned 1.39). */
+      [data-testid="stVerticalBlock"]:has(> [data-testid="stHorizontalBlock"] .forge-login-hero),
       [data-testid="stMainBlockContainer"] > [data-testid="stVerticalBlock"] { gap: 0 !important; }
 
       /* Space between the password box and its show/hide (eye) button, which otherwise touch */
