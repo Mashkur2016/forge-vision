@@ -578,6 +578,135 @@ def _format_detail(payload: object, fallback: str = "Invalid email or password")
     return str(detail) or fallback
 
 
+# ── "How it works" video (login page) ─────────────────────────────────────
+# The video is hosted in the Hugging Face Space repo (Git LFS) and streamed from there, so it is not
+# baked into the container image. Override with INTRO_VIDEO_URL (e.g. a local file server in development).
+_INTRO_VIDEO_URL = os.getenv(
+    "INTRO_VIDEO_URL",
+    "https://huggingface.co/spaces/MashkurA/forge-vision/resolve/main/media/forge-vision-how-it-works.mp4",
+)
+_INTRO_VIDEO_TITLE = "FORGE-Vision: How It Works"
+_INTRO_VIDEO_SUBTITLE = "A full system walkthrough"
+_INTRO_VIDEO_DESC = (
+    "A guided tour of FORGE-Vision, a hybrid computer vision and generative AI system that watches a task, "
+    "checks it against the Standard Operating Procedure, and coaches the worker in real time. "
+    "About 23 minutes, narrated: the research context, the live training session, analytics, evaluation "
+    "and administration. All data shown is synthetic."
+)
+
+
+def _video_modal_injector() -> None:
+    """Inject a pop-up video player into the parent page and wire any `[data-fv-video]` link to it.
+
+    Streamlit's markdown can't run scripts, so (like the mobile menu) this uses a zero-height same-origin
+    iframe that reaches `window.parent.document`. The video is only fetched when the pop-up is first opened
+    (preload="none"), pauses on close, and the link falls back to opening the file in a new tab if JS fails.
+    """
+    import json
+
+    cfg = json.dumps({
+        "url": _INTRO_VIDEO_URL,
+        "title": _INTRO_VIDEO_TITLE,
+        "subtitle": _INTRO_VIDEO_SUBTITLE,
+        "desc": _INTRO_VIDEO_DESC,
+    }).replace("</", "<\\/")
+    _components.html(
+        """
+        <script>
+        (function () {
+          try {
+            var doc = window.parent.document;
+            if (!doc || doc.getElementById('fv-video-modal')) return;
+            var CFG = __CFG__;
+
+            var css = doc.createElement('style');
+            css.id = 'fv-video-style';
+            css.textContent =
+              '#fv-video-modal{position:fixed;inset:0;z-index:1000000;display:none;align-items:center;' +
+              'justify-content:center;background:rgba(10,10,10,.82);padding:16px;box-sizing:border-box;}' +
+              '#fv-video-modal.fv-open{display:flex;}' +
+              '#fv-video-modal .fv-box{width:min(1000px,100%);max-height:100%;overflow:auto;background:#111;' +
+              'border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.6);border:1px solid rgba(255,204,0,.35);}' +
+              '#fv-video-modal .fv-head{display:flex;align-items:flex-start;justify-content:space-between;' +
+              'gap:12px;padding:14px 18px 10px;}' +
+              '#fv-video-modal .fv-title{font-family:Anton,sans-serif;font-size:1.35rem;letter-spacing:.05em;' +
+              'color:#FFCC00;line-height:1.1;margin:0;}' +
+              '#fv-video-modal .fv-sub{font-size:.8rem;color:#bdbdbd;margin-top:3px;letter-spacing:.04em;}' +
+              '#fv-video-modal .fv-close{flex:none;border:0;background:#FFCC00;color:#1a1a1a;width:34px;height:34px;' +
+              'border-radius:50%;font-size:1.1rem;font-weight:700;cursor:pointer;line-height:1;}' +
+              '#fv-video-modal .fv-close:hover{background:#E6B800;}' +
+              '#fv-video-modal video{display:block;width:100%;aspect-ratio:16/9;background:#000;}' +
+              '#fv-video-modal .fv-desc{padding:12px 18px 16px;font-size:.88rem;line-height:1.5;color:#d6d6d6;}' +
+              '#fv-video-modal .fv-err{display:none;padding:10px 18px;font-size:.85rem;color:#ffb4a8;}' +
+              '#fv-video-modal .fv-err a{color:#FFCC00;}' +
+              '@media (max-width:820px){#fv-video-modal{padding:8px;}#fv-video-modal .fv-title{font-size:1.1rem;}}';
+            doc.head.appendChild(css);
+
+            var modal = doc.createElement('div');
+            modal.id = 'fv-video-modal';
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-modal', 'true');
+            modal.setAttribute('aria-labelledby', 'fv-video-title');
+
+            var box = doc.createElement('div'); box.className = 'fv-box';
+            var head = doc.createElement('div'); head.className = 'fv-head';
+            var hl = doc.createElement('div');
+            var h = doc.createElement('h2'); h.id = 'fv-video-title'; h.className = 'fv-title'; h.textContent = CFG.title;
+            var sub = doc.createElement('div'); sub.className = 'fv-sub'; sub.textContent = CFG.subtitle;
+            hl.appendChild(h); hl.appendChild(sub);
+            var close = doc.createElement('button');
+            close.type = 'button'; close.className = 'fv-close'; close.setAttribute('aria-label', 'Close video');
+            close.textContent = '\\u2715';
+            head.appendChild(hl); head.appendChild(close);
+
+            var video = doc.createElement('video');
+            video.controls = true; video.preload = 'none'; video.setAttribute('playsinline', '');
+            var err = doc.createElement('div'); err.className = 'fv-err';
+            err.appendChild(doc.createTextNode('The video could not be loaded. '));
+            var direct = doc.createElement('a');
+            direct.href = CFG.url; direct.target = '_blank'; direct.rel = 'noopener'; direct.textContent = 'Open it directly.';
+            err.appendChild(direct);
+            video.addEventListener('error', function () { err.style.display = 'block'; });
+
+            var desc = doc.createElement('div'); desc.className = 'fv-desc'; desc.textContent = CFG.desc;
+
+            box.appendChild(head); box.appendChild(video); box.appendChild(err); box.appendChild(desc);
+            modal.appendChild(box);
+            doc.body.appendChild(modal);
+
+            var prevOverflow = '';
+            function openModal() {
+              if (!video.getAttribute('src')) video.src = CFG.url;
+              err.style.display = 'none';
+              prevOverflow = doc.body.style.overflow;
+              doc.body.style.overflow = 'hidden';
+              modal.classList.add('fv-open');
+              var p = video.play(); if (p && p.catch) p.catch(function () {});
+              close.focus();
+            }
+            function closeModal() {
+              video.pause();
+              modal.classList.remove('fv-open');
+              doc.body.style.overflow = prevOverflow;
+            }
+            close.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+            doc.addEventListener('keydown', function (e) {
+              if (e.key === 'Escape' && modal.classList.contains('fv-open')) closeModal();
+            });
+            // Delegated: works even though Streamlit re-renders the login markup.
+            doc.addEventListener('click', function (e) {
+              var t = e.target && e.target.closest ? e.target.closest('[data-fv-video]') : null;
+              if (t) { e.preventDefault(); openModal(); }
+            }, true);
+          } catch (ex) { /* DOM not ready / cross-origin: the link falls back to opening the file */ }
+        })();
+        </script>
+        """.replace("__CFG__", cfg),
+        height=0,
+    )
+
+
 def _native_login_page() -> None:
     """Native Streamlit email/password login for standalone deployments.
 
@@ -620,6 +749,21 @@ def _native_login_page() -> None:
           font-size: 1.1rem !important; border-radius: 8px !important; padding: .85rem !important;
       }
       [data-testid="stForm"] button:hover { background: #E6B800 !important; }
+
+      /* "Watch the video — How it works" link in the gold hero panel */
+      .forge-login-hero a.fv-video-link {
+          display: inline-flex; align-items: center; gap: .55rem; margin-top: 1.6rem;
+          padding: .65rem 1.25rem; border-radius: 999px; background: #1a1a1a; color: #FFCC00 !important;
+          font-weight: 700; font-size: .9rem; letter-spacing: .04em; text-decoration: none !important;
+          box-shadow: 0 8px 22px rgba(0,0,0,.25); transition: transform .15s ease, box-shadow .15s ease;
+      }
+      .forge-login-hero a.fv-video-link:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,.32); }
+      .forge-login-hero a.fv-video-link .fv-play {
+          display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem;
+          border-radius: 50%; background: #FFCC00; color: #1a1a1a; font-size: .7rem; padding-left: 2px;
+      }
+      /* the zero-height script iframe must not leave a gap */
+      [data-testid="stElementContainer"]:has(iframe[height="0"]) { display: none !important; }
 
       /* ── Mobile login (≤ 820px) ──────────────────────────────────────────
          The two-panel split stacks (global rule); shrink the gold hero to a
@@ -670,13 +814,18 @@ def _native_login_page() -> None:
                             color:#1a1a1a;opacity:.75;text-transform:uppercase;">AI Employee Training System</div>
                 <div class="hero-tag" style="margin-top:1rem;font-size:0.78rem;font-style:italic;color:rgba(0,0,0,0.55);
                             letter-spacing:0.06em;">Research. Innovation. Transformation.</div>
+                <a class="fv-video-link" data-fv-video href="__VIDEO_URL__" target="_blank" rel="noopener"
+                   aria-label="Watch the video: how FORGE-Vision works">
+                  <span class="fv-play" aria-hidden="true">&#9654;</span>Watch the video &mdash; How it works
+                </a>
               </div>
               <div class="hero-footer" style="position:absolute;bottom:1.5rem;font-size:0.78rem;color:rgba(0,0,0,0.45);
                           letter-spacing:0.05em;">Research Project</div>
             </div>
-            """.replace("__LOGO__", LOGO_B64),
+            """.replace("__LOGO__", LOGO_B64).replace("__VIDEO_URL__", _INTRO_VIDEO_URL),
             unsafe_allow_html=True,
         )
+        _video_modal_injector()
 
     # ── RIGHT: form (centered, max ~400px) ────────────────────────────────
     with right:
