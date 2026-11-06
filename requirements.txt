@@ -45,6 +45,7 @@ pyyaml==6.0.2
 
 # Computer Vision — Phase 2 (model training)
 mediapipe==0.10.14
+protobuf==4.25.8                 # mediapipe 0.10.14 requires protobuf<5 (protobuf 5+/7 breaks pose tests); >=4.25.8 for databricks-sdk
 ultralytics==8.3.0
 torch==2.4.0
 torchvision==0.19.0
