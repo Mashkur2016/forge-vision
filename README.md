@@ -2,6 +2,9 @@
 
 **A Hybrid Computer Vision and Generative AI System for Real-Time and Simulation-Based Employee Training**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24079047.svg)](https://doi.org/10.5281/zenodo.24079047)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 DBA Research project: Prof. Dr. Karim Mohammed Rezaul and Mashkur Alam
 
 FORGE-Vision watches a worker carry out a task, compares what it sees with the Standard Operating Procedure (SOP),
