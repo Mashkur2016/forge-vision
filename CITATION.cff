@@ -3,10 +3,14 @@ message: "If you use this software, please cite it using the metadata below."
 type: software
 title: "FORGE-Vision: A Hybrid Computer Vision and Generative AI System for Real-Time and Simulation-Based Employee Training"
 authors:
+  - family-names: Khan
+    given-names: Md Nasrullah
   - family-names: Rezaul
     given-names: Karim Mohammed
   - family-names: Alam
     given-names: Mashkur
+  - family-names: Jewel
+    given-names: Md
 license: Apache-2.0
 doi: 10.5281/zenodo.24079047
 repository-code: "https://github.com/Mashkur2016/forge-vision"

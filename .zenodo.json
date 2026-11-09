@@ -4,10 +4,16 @@
   "description": "<p>FORGE-Vision is a hybrid artificial-intelligence system for employee training developed as part of a Doctor of Business Administration (DBA) research project. It combines computer vision and generative AI to monitor workers performing tasks, detect deviations from Standard Operating Procedures (SOPs), and deliver immediate, explainable corrective guidance.</p><p>The system operates in two phases. Phase A (simulation) trains and validates the models on synthetic scenarios covering correct execution, missing steps, wrong sequence, unsafe behaviour and rare critical failures. Phase B (real-time) deploys the validated system with live camera feeds. The pipeline uses pose estimation (MediaPipe), object detection (YOLOv8) and action/sequence modelling (PyTorch). A large language model receives structured context (detected error, current step, SOP step, worker history) and generates a corrective instruction. The platform includes a FastAPI backend, PostgreSQL persistence, a React and Streamlit interface, and Docker-based deployment.</p><p>The study investigates three hypotheses: (H1) reduced task error rates compared with traditional training; (H2) better skill transfer from the hybrid simulation-to-real-time approach than from either alone; (H3) shorter task completion times with real-time rather than post-hoc feedback.</p><p>This archive contains the source code, tests, database migrations, deployment configuration, SOP definitions, architecture and governance documents, the literature review and gap analysis, and the system implementation report. All simulation data used in the project is synthetic and is labelled as such. No real worker biometric data is included. Model weights, generated videos, credentials and third-party copyrighted papers are intentionally excluded.</p>",
   "creators": [
     {
+      "name": "Khan, Md Nasrullah"
+    },
+    {
       "name": "Rezaul, Karim Mohammed"
     },
     {
       "name": "Alam, Mashkur"
+    },
+    {
+      "name": "Jewel, Md"
     }
   ],
   "license": "Apache-2.0",
