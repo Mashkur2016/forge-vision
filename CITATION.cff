@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+type: software
+title: "FORGE-Vision: A Hybrid Computer Vision and Generative AI System for Real-Time and Simulation-Based Employee Training"
+authors:
+  - family-names: Rezaul
+    given-names: Karim Mohammed
+    affiliation: Coventry University
+license: Apache-2.0
+repository-code: "https://github.com/Mashkur2016/forge-vision"
+abstract: >-
+  FORGE-Vision is a hybrid AI system for employee training that combines
+  computer vision and generative AI to monitor workers performing tasks,
+  detect deviations from Standard Operating Procedures (SOPs), and deliver
+  immediate, explainable corrective guidance. It is validated first on
+  synthetic simulation data (Phase A) and then deployed with live camera
+  feeds (Phase B). Developed as part of a DBA research project at
+  Coventry University.
+keywords:
+  - computer vision
+  - generative AI
+  - employee training
+  - standard operating procedures
+  - pose estimation
+  - explainable AI
