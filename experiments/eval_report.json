@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "checkpoint": "D:\\Data\\Coventry University\\Projects\\DBA Project\\models\\action_recognizer_best.pth",
-    "dataset_index": "D:\\Data\\Coventry University\\Projects\\DBA Project\\data\\synthetic\\dataset_index.json",
+    "checkpoint": "models\\action_recognizer_best.pth",
+    "dataset_index": "data\\synthetic\\dataset_index.json",
     "num_test_clips": 120,
     "num_classes": 5,
     "class_names": [
