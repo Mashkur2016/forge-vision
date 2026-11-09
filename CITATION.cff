@@ -6,6 +6,8 @@ authors:
   - family-names: Rezaul
     given-names: Karim Mohammed
     affiliation: Coventry University
+  - family-names: Alam
+    given-names: Mashkur
 license: Apache-2.0
 doi: 10.5281/zenodo.24079047
 repository-code: "https://github.com/Mashkur2016/forge-vision"
